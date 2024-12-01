@@ -52,6 +52,7 @@ class CalendarDayCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final isSelected = date.year == selectedDate.year &&
         date.month == selectedDate.month &&
         date.day == selectedDate.day;
@@ -80,7 +81,8 @@ class CalendarDayCell extends StatelessWidget {
         onTap: () => onDaySelected(date),
         child: Container(
           decoration: BoxDecoration(
-            color: isSelected ? Colors.blue.withOpacity(0.2) : null,
+            color:
+                isSelected ? theme.colorScheme.primary.withOpacity(0.2) : null,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
@@ -92,8 +94,9 @@ class CalendarDayCell extends StatelessWidget {
                   child: Text(
                     '${date.day}',
                     style: TextStyle(
-                      color:
-                          date.weekday == DateTime.sunday ? Colors.red : null,
+                      color: date.weekday == DateTime.sunday
+                          ? Colors.red
+                          : theme.textTheme.bodyLarge?.color,
                       fontWeight: isSelected ? FontWeight.bold : null,
                     ),
                   ),

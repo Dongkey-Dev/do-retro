@@ -41,4 +41,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get navSettings => '설정';
+
+  @override
+  String get settingsTheme => '테마';
+
+  @override
+  String get themeLight => '라이트';
+
+  @override
+  String get themeDark => '다크';
+
+  @override
+  String get themeSystem => '시스템 기본값';
 }

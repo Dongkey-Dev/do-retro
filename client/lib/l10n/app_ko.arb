@@ -23,5 +23,9 @@
   "noEventsThisMonth": "이번 달 일정이 없습니다",
   "navCalendar": "캘린더",
   "navStats": "통계",
-  "navSettings": "설정"
+  "navSettings": "설정",
+  "settingsTheme": "테마",
+  "themeLight": "라이트",
+  "themeDark": "다크",
+  "themeSystem": "시스템 기본값"
 } 

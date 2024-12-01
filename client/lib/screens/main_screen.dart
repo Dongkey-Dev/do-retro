@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pie_menu/pie_menu.dart';
 import '../widgets/calendar/calendar_view.dart';
 import '../l10n/app_localizations.dart';
+import '../screens/settings_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -24,8 +25,8 @@ class _MainScreenState extends State<MainScreen> {
         });
       },
     ),
-    const Center(child: Text('통계')), // 추후 통계 화면으로 교체
-    const Center(child: Text('설정')), // 추후 설정 화면으로 교체
+    const Center(child: Text('통계')),
+    const SettingsScreen(),
   ];
 
   @override

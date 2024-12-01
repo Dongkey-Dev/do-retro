@@ -47,5 +47,9 @@
   "navSettings": "Settings",
   "@navSettings": {
     "description": "Settings tab label"
-  }
+  },
+  "settingsTheme": "Theme",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System default"
 } 

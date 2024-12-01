@@ -10,12 +10,14 @@ import 'providers/locale_provider.dart';
 import 'services/calendar_service.dart';
 import 'providers/calendar_provider.dart';
 import 'repositories/persistent_repository_decorator.dart';
+import 'providers/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
   final localRepository = LocalCalendarRepository(prefs: prefs);
+  final themeProvider = ThemeProvider(prefs: prefs);
 
   // 환경에 따라 적절한 repository 선택
   final bool useRemote = false; // 개발 중에는 로컬 저장소 사용
@@ -39,6 +41,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => CalendarProvider(service: service),
         ),
+        ChangeNotifierProvider.value(value: themeProvider),
       ],
       child: const MyApp(),
     ),
@@ -50,6 +53,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
     final localeProvider = context.watch<LocaleProvider>();
 
     return MaterialApp(
@@ -60,14 +64,35 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('ko'), // 한국어
-        Locale('en'), // 영어
+        Locale('ko'),
+        Locale('en'),
       ],
       locale: localeProvider.locale,
       title: 'Calendar Todo',
+      themeMode: themeProvider.themeMode,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          brightness: Brightness.light,
+        ),
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          elevation: 0,
+        ),
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          brightness: Brightness.dark,
+        ),
+        scaffoldBackgroundColor: Colors.grey[900],
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey[900],
+          elevation: 0,
+        ),
       ),
       home: const MainScreen(),
     );
