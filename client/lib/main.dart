@@ -17,6 +17,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
+  final localeProvider = LocaleProvider(prefs: prefs);
   final localRepository = LocalCalendarRepository(prefs: prefs);
   final themeProvider = ThemeProvider(prefs: prefs);
 
@@ -38,7 +39,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider.value(value: localeProvider),
         ChangeNotifierProvider(
           create: (_) => CalendarProvider(service: service),
         ),

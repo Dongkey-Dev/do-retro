@@ -250,6 +250,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
+
+  /// Language settings title
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguage;
+
+  /// No description provided for @subItemMorningExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning Exercise'**
+  String get subItemMorningExercise;
+
+  /// No description provided for @subItemReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading'**
+  String get subItemReading;
+
+  /// No description provided for @subItemMeditation.
+  ///
+  /// In en, this message translates to:
+  /// **'Meditation'**
+  String get subItemMeditation;
+
+  /// No description provided for @subItemDiary.
+  ///
+  /// In en, this message translates to:
+  /// **'Write Diary'**
+  String get subItemDiary;
+
+  /// No description provided for @subItemMeeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting'**
+  String get subItemMeeting;
+
+  /// No description provided for @subItemReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get subItemReport;
+
+  /// No description provided for @subItemProject.
+  ///
+  /// In en, this message translates to:
+  /// **'Project'**
+  String get subItemProject;
+
+  /// No description provided for @subItemStudy.
+  ///
+  /// In en, this message translates to:
+  /// **'Study'**
+  String get subItemStudy;
+
+  /// No description provided for @subItemDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Deadline'**
+  String get subItemDeadline;
+
+  /// No description provided for @subItemAppointment.
+  ///
+  /// In en, this message translates to:
+  /// **'Appointment'**
+  String get subItemAppointment;
+
+  /// No description provided for @subItemImportantMeeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Important Meeting'**
+  String get subItemImportantMeeting;
+
+  /// No description provided for @subItemUrgentTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgent Task'**
+  String get subItemUrgentTask;
+
+  /// No description provided for @subItemHobby.
+  ///
+  /// In en, this message translates to:
+  /// **'Hobby'**
+  String get subItemHobby;
+
+  /// No description provided for @subItemExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise'**
+  String get subItemExercise;
+
+  /// No description provided for @subItemShopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping'**
+  String get subItemShopping;
+
+  /// No description provided for @subItemSelfDevelopment.
+  ///
+  /// In en, this message translates to:
+  /// **'Self Development'**
+  String get subItemSelfDevelopment;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

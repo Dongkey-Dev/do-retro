@@ -10,7 +10,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get categoryDaily => '일상';
 
   @override
-  String get categoryWorkStudy => '업무/학업';
+  String get categoryWorkStudy => '업무/학습';
 
   @override
   String get categoryImportant => '중요';
@@ -83,4 +83,55 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settings => '설정';
+
+  @override
+  String get settingsLanguage => '언어';
+
+  @override
+  String get subItemMorningExercise => '아침 운동';
+
+  @override
+  String get subItemReading => '독서';
+
+  @override
+  String get subItemMeditation => '명상';
+
+  @override
+  String get subItemDiary => '일기 쓰기';
+
+  @override
+  String get subItemMeeting => '회의';
+
+  @override
+  String get subItemReport => '보고서';
+
+  @override
+  String get subItemProject => '프로젝트';
+
+  @override
+  String get subItemStudy => '학습';
+
+  @override
+  String get subItemDeadline => '마감기한';
+
+  @override
+  String get subItemAppointment => '약속';
+
+  @override
+  String get subItemImportantMeeting => '중요 미팅';
+
+  @override
+  String get subItemUrgentTask => '긴급 업무';
+
+  @override
+  String get subItemHobby => '취미';
+
+  @override
+  String get subItemExercise => '운동';
+
+  @override
+  String get subItemShopping => '쇼핑';
+
+  @override
+  String get subItemSelfDevelopment => '자기계발';
 }

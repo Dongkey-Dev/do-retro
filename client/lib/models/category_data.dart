@@ -19,29 +19,7 @@ class CategoryData {
     required this.icon,
   });
 
-  static final Map<String, Map<String, dynamic>> categories = {
-    'daily': {
-      'icon': Icons.home_rounded,
-      'color': const Color(0xFF4CAF50),
-      'subItems': ['아침 운동', '독서', '명상', '일기 쓰기'],
-    },
-    'workStudy': {
-      'icon': Icons.work_rounded,
-      'color': const Color(0xFF2196F3),
-      'subItems': ['회의', '보고서', '프로젝트', '학습'],
-    },
-    'important': {
-      'icon': Icons.priority_high_rounded,
-      'color': const Color(0xFFF44336),
-      'subItems': ['마감기한', '약속', '중요 미팅', '긴급 업무'],
-    },
-    'personal': {
-      'icon': Icons.person_rounded,
-      'color': const Color(0xFF9C27B0),
-      'subItems': ['취미', '운동', '쇼핑', '자기계발'],
-    },
-  };
-
+  // 카테고리 이름을 현재 로케일에 맞게 반환
   String getName(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     switch (type) {
@@ -56,8 +34,99 @@ class CategoryData {
     }
   }
 
+  // 카테고리의 하위 항목들을 현재 로케일에 맞게 반환
   List<String> getSubItems(BuildContext context) {
-    return categories[type.name]!['subItems'] ?? [];
+    final categoryKey = type.name;
+    return CategoryData.getLocalizedSubItems(context, categoryKey);
+  }
+
+  static final Map<String, Map<String, dynamic>> categories = {
+    'daily': {
+      'icon': Icons.home_rounded,
+      'color': const Color(0xFF4CAF50),
+      'subItemKeys': [
+        'subItemMorningExercise',
+        'subItemReading',
+        'subItemMeditation',
+        'subItemDiary',
+      ],
+    },
+    'workStudy': {
+      'icon': Icons.work_rounded,
+      'color': const Color(0xFF2196F3),
+      'subItemKeys': [
+        'subItemMeeting',
+        'subItemReport',
+        'subItemProject',
+        'subItemStudy',
+      ],
+    },
+    'important': {
+      'icon': Icons.priority_high_rounded,
+      'color': const Color(0xFFF44336),
+      'subItemKeys': [
+        'subItemDeadline',
+        'subItemAppointment',
+        'subItemImportantMeeting',
+        'subItemUrgentTask',
+      ],
+    },
+    'personal': {
+      'icon': Icons.person_rounded,
+      'color': const Color(0xFF9C27B0),
+      'subItemKeys': [
+        'subItemHobby',
+        'subItemExercise',
+        'subItemShopping',
+        'subItemSelfDevelopment',
+      ],
+    },
+  };
+
+  static List<String> getLocalizedSubItems(
+      BuildContext context, String category) {
+    final l10n = AppLocalizations.of(context)!;
+    final subItemKeys =
+        categories[category]?['subItemKeys'] as List<String>? ?? [];
+
+    return subItemKeys.map((key) {
+      switch (key) {
+        case 'subItemMorningExercise':
+          return l10n.subItemMorningExercise;
+        case 'subItemReading':
+          return l10n.subItemReading;
+        case 'subItemMeditation':
+          return l10n.subItemMeditation;
+        case 'subItemDiary':
+          return l10n.subItemDiary;
+        case 'subItemMeeting':
+          return l10n.subItemMeeting;
+        case 'subItemReport':
+          return l10n.subItemReport;
+        case 'subItemProject':
+          return l10n.subItemProject;
+        case 'subItemStudy':
+          return l10n.subItemStudy;
+        case 'subItemDeadline':
+          return l10n.subItemDeadline;
+        case 'subItemAppointment':
+          return l10n.subItemAppointment;
+        case 'subItemImportantMeeting':
+          return l10n.subItemImportantMeeting;
+        case 'subItemUrgentTask':
+          return l10n.subItemUrgentTask;
+        case 'subItemHobby':
+          return l10n.subItemHobby;
+        case 'subItemExercise':
+          return l10n.subItemExercise;
+        case 'subItemShopping':
+          return l10n.subItemShopping;
+        case 'subItemSelfDevelopment':
+          return l10n.subItemSelfDevelopment;
+        default:
+          return key;
+      }
+    }).toList();
   }
 }
 

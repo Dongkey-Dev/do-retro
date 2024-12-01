@@ -70,5 +70,25 @@
   },
   "@settings": {
     "description": "Label for settings navigation item"
-  }
+  },
+  "settingsLanguage": "Language",
+  "@settingsLanguage": {
+    "description": "Language settings title"
+  },
+  "subItemMorningExercise": "Morning Exercise",
+  "subItemReading": "Reading",
+  "subItemMeditation": "Meditation",
+  "subItemDiary": "Write Diary",
+  "subItemMeeting": "Meeting",
+  "subItemReport": "Report",
+  "subItemProject": "Project",
+  "subItemStudy": "Study",
+  "subItemDeadline": "Deadline",
+  "subItemAppointment": "Appointment",
+  "subItemImportantMeeting": "Important Meeting",
+  "subItemUrgentTask": "Urgent Task",
+  "subItemHobby": "Hobby",
+  "subItemExercise": "Exercise",
+  "subItemShopping": "Shopping",
+  "subItemSelfDevelopment": "Self Development"
 } 

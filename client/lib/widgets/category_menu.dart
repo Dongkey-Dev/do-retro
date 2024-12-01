@@ -29,7 +29,7 @@ class CategoryMenu extends StatelessWidget {
               _buildCategoryWheel(),
               if (selectedCategory != null) ...[
                 const SizedBox(height: 32),
-                _buildSubItems(selectedCategory!),
+                _buildSubItems(context, selectedCategory!),
               ],
             ],
           ),
@@ -85,13 +85,7 @@ class CategoryMenu extends StatelessWidget {
     );
   }
 
-  Widget _buildSubItems(String category) {
-    final categoryData = CategoryData.categories[category];
-    if (categoryData == null) return const SizedBox.shrink();
-
-    final List<String> subItems =
-        List<String>.from(categoryData['subItems'] as Iterable<dynamic>);
-
+  Widget _buildSubItems(BuildContext context, String category) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -100,7 +94,7 @@ class CategoryMenu extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: subItems
+        children: CategoryData.getLocalizedSubItems(context, category)
             .map(
               (item) => ListTile(
                 title: Text(item),

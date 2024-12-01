@@ -4,7 +4,7 @@
   "@categoryDaily": {
     "description": "Daily category name"
   },
-  "categoryWorkStudy": "업무/학업",
+  "categoryWorkStudy": "업무/학습",
   "@categoryWorkStudy": {
     "description": "Work/Study category name"
   },
@@ -37,5 +37,25 @@
   "weekdaySat": "토",
   "calendar": "달력",
   "statistics": "통계",
-  "settings": "설정"
+  "settings": "설정",
+  "settingsLanguage": "언어",
+  "@settingsLanguage": {
+    "description": "Language settings title"
+  },
+  "subItemMorningExercise": "아침 운동",
+  "subItemReading": "독서",
+  "subItemMeditation": "명상",
+  "subItemDiary": "일기 쓰기",
+  "subItemMeeting": "회의",
+  "subItemReport": "보고서",
+  "subItemProject": "프로젝트",
+  "subItemStudy": "학습",
+  "subItemDeadline": "마감기한",
+  "subItemAppointment": "약속",
+  "subItemImportantMeeting": "중요 미팅",
+  "subItemUrgentTask": "긴급 업무",
+  "subItemHobby": "취미",
+  "subItemExercise": "운동",
+  "subItemShopping": "쇼핑",
+  "subItemSelfDevelopment": "자기계발"
 } 

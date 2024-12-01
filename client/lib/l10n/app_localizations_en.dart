@@ -83,4 +83,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings => 'Settings';
+
+  @override
+  String get settingsLanguage => 'Language';
+
+  @override
+  String get subItemMorningExercise => 'Morning Exercise';
+
+  @override
+  String get subItemReading => 'Reading';
+
+  @override
+  String get subItemMeditation => 'Meditation';
+
+  @override
+  String get subItemDiary => 'Write Diary';
+
+  @override
+  String get subItemMeeting => 'Meeting';
+
+  @override
+  String get subItemReport => 'Report';
+
+  @override
+  String get subItemProject => 'Project';
+
+  @override
+  String get subItemStudy => 'Study';
+
+  @override
+  String get subItemDeadline => 'Deadline';
+
+  @override
+  String get subItemAppointment => 'Appointment';
+
+  @override
+  String get subItemImportantMeeting => 'Important Meeting';
+
+  @override
+  String get subItemUrgentTask => 'Urgent Task';
+
+  @override
+  String get subItemHobby => 'Hobby';
+
+  @override
+  String get subItemExercise => 'Exercise';
+
+  @override
+  String get subItemShopping => 'Shopping';
+
+  @override
+  String get subItemSelfDevelopment => 'Self Development';
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_todo/l10n/app_localizations.dart';
 import '../providers/theme_provider.dart';
+import '../widgets/settings/language_settings.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -24,6 +25,7 @@ class SettingsScreen extends StatelessWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _showThemeDialog(context, themeProvider),
           ),
+          const LanguageSettings(),
         ],
       ),
     );
