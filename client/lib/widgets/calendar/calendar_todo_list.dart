@@ -32,9 +32,12 @@ class CalendarTodoList extends StatelessWidget {
 
         return Scrollbar(
           child: ListView.separated(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             itemCount: events.length,
-            separatorBuilder: (context, index) => const Divider(height: 1),
+            separatorBuilder: (context, index) => Divider(
+              height: 1,
+              color: Colors.grey[100],
+            ),
             itemBuilder: (context, index) {
               final event = events[index];
               final category = defaultCategories.firstWhere(
