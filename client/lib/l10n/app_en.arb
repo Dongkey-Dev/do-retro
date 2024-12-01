@@ -1,0 +1,39 @@
+{
+  "@@locale": "en",
+  "categoryDaily": "Daily",
+  "@categoryDaily": {
+    "description": "Daily category name"
+  },
+  "categoryWorkStudy": "Work/Study",
+  "@categoryWorkStudy": {
+    "description": "Work/Study category name"
+  },
+  "categoryImportant": "Important",
+  "@categoryImportant": {
+    "description": "Important category name"
+  },
+  "categoryPersonal": "Personal",
+  "@categoryPersonal": {
+    "description": "Personal category name"
+  },
+  "dialogDeleteEventTitle": "Delete Event",
+  "@dialogDeleteEventTitle": {
+    "description": "Title for delete event dialog"
+  },
+  "dialogDeleteEventContent": "Are you sure you want to delete this event?",
+  "@dialogDeleteEventContent": {
+    "description": "Content message for delete event dialog"
+  },
+  "dialogCancel": "Cancel",
+  "@dialogCancel": {
+    "description": "Cancel button text"
+  },
+  "dialogDelete": "Delete",
+  "@dialogDelete": {
+    "description": "Delete button text"
+  },
+  "noEventsThisMonth": "No events this month",
+  "@noEventsThisMonth": {
+    "description": "Message shown when there are no events in the current month"
+  }
+} 
