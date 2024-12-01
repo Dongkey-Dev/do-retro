@@ -4,45 +4,34 @@ import 'package:simple_todo/widgets/calendar/calendar_view.dart';
 class CalendarHeader extends StatelessWidget {
   final DateTime currentMonth;
   final CalendarViewType viewType;
+  final VoidCallback onPreviousMonth;
+  final VoidCallback onNextMonth;
+  final VoidCallback onTitleTapped;
 
   const CalendarHeader({
     super.key,
     required this.currentMonth,
     required this.viewType,
-    required Null Function() onPreviousMonth,
-    required Null Function() onNextMonth,
-    required Null Function() onTitleTapped,
+    required this.onPreviousMonth,
+    required this.onNextMonth,
+    required this.onTitleTapped,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // 연월 표시
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Text(
-            '${currentMonth.year}.${currentMonth.month}',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: GestureDetector(
+            onTap: onTitleTapped,
+            child: Text(
+              '${currentMonth.year}.${currentMonth.month}',
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-        ),
-        // 요일 헤더
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: ['일', '월', '화', '수', '목', '금', '토']
-                .map((day) => Text(
-                      day,
-                      style: TextStyle(
-                        color: day == '일' ? Colors.red : Colors.black,
-                        fontSize: 16,
-                      ),
-                    ))
-                .toList(),
           ),
         ),
       ],

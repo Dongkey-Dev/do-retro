@@ -53,4 +53,34 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get themeSystem => '시스템 기본값';
+
+  @override
+  String get weekdaySun => '일';
+
+  @override
+  String get weekdayMon => '월';
+
+  @override
+  String get weekdayTue => '화';
+
+  @override
+  String get weekdayWed => '수';
+
+  @override
+  String get weekdayThu => '목';
+
+  @override
+  String get weekdayFri => '금';
+
+  @override
+  String get weekdaySat => '토';
+
+  @override
+  String get calendar => '달력';
+
+  @override
+  String get statistics => '통계';
+
+  @override
+  String get settings => '설정';
 }

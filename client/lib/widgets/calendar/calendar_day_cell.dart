@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pie_menu/pie_menu.dart';
+import 'package:simple_todo/theme/app_theme.dart';
 import '../../providers/calendar_provider.dart';
 import '../../models/calendar_event.dart';
 import '../../models/category_data.dart';
@@ -39,8 +40,7 @@ class CalendarDayCell extends StatelessWidget {
                   createdAt: DateTime.now(),
                 );
 
-                calendarProvider.addEvent(
-                    event.date, event.categoryType, event.subItem);
+                calendarProvider.addEvent(event);
                 Navigator.pop(context);
               },
             );
@@ -52,7 +52,7 @@ class CalendarDayCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final calendarTheme = Theme.of(context).calendarTheme;
     final isSelected = date.year == selectedDate.year &&
         date.month == selectedDate.month &&
         date.day == selectedDate.day;
@@ -81,8 +81,9 @@ class CalendarDayCell extends StatelessWidget {
         onTap: () => onDaySelected(date),
         child: Container(
           decoration: BoxDecoration(
-            color:
-                isSelected ? theme.colorScheme.primary.withOpacity(0.2) : null,
+            color: isSelected
+                ? calendarTheme.selectedDayColor.withOpacity(0.2)
+                : null,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
@@ -95,8 +96,8 @@ class CalendarDayCell extends StatelessWidget {
                     '${date.day}',
                     style: TextStyle(
                       color: date.weekday == DateTime.sunday
-                          ? Colors.red
-                          : theme.textTheme.bodyLarge?.color,
+                          ? calendarTheme.sundayTextColor
+                          : calendarTheme.dayTextColor,
                       fontWeight: isSelected ? FontWeight.bold : null,
                     ),
                   ),

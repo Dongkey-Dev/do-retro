@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:simple_todo/theme/app_theme.dart';
 import 'calendar_day_cell.dart';
 import 'calendar_utils.dart';
+import 'package:simple_todo/l10n/app_localizations.dart';
 
 class MonthView extends StatelessWidget {
   final DateTime monthDate;
   final DateTime selectedDate;
-  final Animation<double> heightFactor;
   final Function(DateTime) onDaySelected;
 
   const MonthView({
     super.key,
     required this.monthDate,
     required this.selectedDate,
-    required this.heightFactor,
     required this.onDaySelected,
   });
 
@@ -28,11 +28,16 @@ class MonthView extends StatelessWidget {
     final cellHeight = availableHeight / 12;
     final childAspectRatio = cellWidth / cellHeight;
 
-    return AnimatedBuilder(
-      animation: heightFactor,
-      builder: (context, child) {
-        return Container(
-          alignment: Alignment.topCenter,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          height: 30,
+          child: _buildWeekdayNames(context),
+        ),
+        const SizedBox(height: 8),
+        Flexible(
           child: GridView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             physics: const NeverScrollableScrollPhysics(),
@@ -40,14 +45,14 @@ class MonthView extends StatelessWidget {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 7,
               childAspectRatio: childAspectRatio,
-              crossAxisSpacing: 8, // 가로 간격
-              mainAxisSpacing: 8, // 세로 간격
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
             ),
             itemCount: _calculateItemCount(),
             itemBuilder: (context, index) => _buildMonthViewCell(index),
           ),
-        );
-      },
+        ),
+      ],
     );
   }
 
@@ -73,5 +78,40 @@ class MonthView extends StatelessWidget {
   int _calculateItemCount() {
     return CalendarUtils.getDaysInMonth(monthDate) +
         CalendarUtils.getFirstWeekday(monthDate);
+  }
+
+  Widget _buildWeekdayNames(BuildContext context) {
+    final calendarTheme = Theme.of(context).calendarTheme;
+    final l10n = AppLocalizations.of(context)!;
+
+    final weekdays = [
+      l10n.weekdaySun,
+      l10n.weekdayMon,
+      l10n.weekdayTue,
+      l10n.weekdayWed,
+      l10n.weekdayThu,
+      l10n.weekdayFri,
+      l10n.weekdaySat,
+    ];
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: weekdays.map((day) {
+        return Expanded(
+          child: Center(
+            child: Text(
+              day,
+              style: TextStyle(
+                color: day == l10n.weekdaySun // 일요일 체크도 l10n 사용
+                    ? calendarTheme.sundayTextColor
+                    : calendarTheme.weekdayTextColor,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
   }
 }

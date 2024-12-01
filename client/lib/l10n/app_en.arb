@@ -51,5 +51,24 @@
   "settingsTheme": "Theme",
   "themeLight": "Light",
   "themeDark": "Dark",
-  "themeSystem": "System default"
+  "themeSystem": "System default",
+  "weekdaySun": "Sun",
+  "weekdayMon": "Mon",
+  "weekdayTue": "Tue",
+  "weekdayWed": "Wed",
+  "weekdayThu": "Thu",
+  "weekdayFri": "Fri",
+  "weekdaySat": "Sat",
+  "calendar": "Calendar",
+  "statistics": "Statistics",
+  "settings": "Settings",
+  "@calendar": {
+    "description": "Label for calendar navigation item"
+  },
+  "@statistics": {
+    "description": "Label for statistics navigation item"
+  },
+  "@settings": {
+    "description": "Label for settings navigation item"
+  }
 } 

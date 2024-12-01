@@ -5,70 +5,91 @@ import 'package:simple_todo/services/calendar_service.dart';
 
 class CalendarProvider extends ChangeNotifier {
   final CalendarService _service;
-
-  CalendarProvider({required CalendarService service}) : _service = service {
-    // 초기화 시 데이터 로드
-    _loadInitialData();
-  }
-
-  // 현재 로드된 이벤트들
+  Map<String, List<CalendarEvent>> _eventCache = {};
   Map<DateTime, List<CalendarEvent>> _events = {};
   bool _isLoading = false;
   String? _error;
 
+  CalendarProvider({required CalendarService service}) : _service = service;
+
   bool get isLoading => _isLoading;
   String? get error => _error;
 
+  String _getCacheKey(DateTime date) {
+    return '${date.year}-${date.month}';
+  }
+
   List<CalendarEvent> getEventsForDay(DateTime date) {
-    final key = DateTime(date.year, date.month, date.day);
-    return _events[key] ?? [];
+    final dateKey = DateTime(date.year, date.month, date.day);
+    return _events[dateKey] ?? [];
   }
 
   Future<void> loadEventsForMonth(DateTime month) async {
+    final key = _getCacheKey(month);
+
+    // 이미 캐시에 있다면 스킵
+    if (_eventCache.containsKey(key)) {
+      return;
+    }
+
     try {
       _isLoading = true;
-      _error = null;
       notifyListeners();
 
       final events = await _service.getEventsForMonth(month);
+      _eventCache[key] = events;
 
-      // 이벤트를 날짜별로 그룹화
-      _events = {};
-      for (final event in events) {
-        final key = DateTime(
-          event.date.year,
-          event.date.month,
-          event.date.day,
-        );
-        _events[key] ??= [];
-        _events[key]!.add(event);
-      }
+      _isLoading = false;
+      _error = null;
+      notifyListeners();
     } catch (e) {
       _error = e.toString();
-    } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 
-  Future<void> addEvent(
-      DateTime date, CategoryType categoryType, String subItem) async {
+  // 여러 달의 데이터를 한 번에 로드
+  Future<void> preloadMonths(List<DateTime> months) async {
     try {
-      final event = await _service.addEvent(
-        date: date,
-        categoryType: categoryType,
-        subItem: subItem,
+      await Future.wait(months.map((month) => loadEventsForMonth(month)));
+    } catch (e) {
+      print('Error preloading months: $e');
+    }
+  }
+
+  Future<void> addEvent(CalendarEvent event) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      // Firestore에 이벤트 추가
+      await _service.addEvent(
+        date: event.date,
+        categoryType: event.categoryType,
+        subItem: event.subItem,
       );
 
-      // 로컬 상태 업데이트
-      final key = DateTime(date.year, date.month, date.day);
-      _events[key] ??= [];
-      _events[key]!.add(event);
+      // 날짜를 키로 사용하기 위해 시간 정보 제거
+      final dateKey = DateTime(
+        event.date.year,
+        event.date.month,
+        event.date.day,
+      );
 
+      // _events 맵에 이벤트 추가
+      if (_events[dateKey] == null) {
+        _events[dateKey] = [];
+      }
+      _events[dateKey]!.add(event);
+
+      _isLoading = false;
       notifyListeners();
     } catch (e) {
+      _isLoading = false;
       _error = e.toString();
       notifyListeners();
+      rethrow;
     }
   }
 
@@ -130,6 +151,43 @@ class CalendarProvider extends ChangeNotifier {
     } catch (e) {
       _error = e.toString();
       notifyListeners();
+    }
+  }
+
+  // 필요한 경우 이벤트 초기 로드 메서드
+  Future<void> loadEvents(DateTime date) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      // 해당 월의 시작일과 마지막일을 계산
+      final startOfMonth = DateTime(date.year, date.month, 1);
+      final endOfMonth = DateTime(date.year, date.month + 1, 0);
+
+      final events = await _service.getEvents(startOfMonth, endOfMonth);
+      _events.clear();
+
+      // 받아온 이벤트들을 날짜별로 분류
+      for (var event in events) {
+        final dateKey = DateTime(
+          event.date.year,
+          event.date.month,
+          event.date.day,
+        );
+
+        if (_events[dateKey] == null) {
+          _events[dateKey] = [];
+        }
+        _events[dateKey]!.add(event);
+      }
+
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
+      _error = e.toString();
+      notifyListeners();
+      rethrow;
     }
   }
 }
