@@ -39,20 +39,20 @@ class CalendarService {
   Future<CalendarEvent> addEvent({
     required DateTime date,
     required CategoryType categoryType,
-    required String subItem,
+    required String subItemKey,
   }) async {
     try {
-      // 저장소에 이벤트 추가
-      final event = await repository.createEvent(date, categoryType, subItem);
+      final event = CalendarEvent(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        date: date,
+        categoryType: categoryType,
+        subItemKey: subItemKey,
+        createdAt: DateTime.now(),
+      );
 
-      // 캐시 업데이트
-      final cacheKey = '${date.year}-${date.month}';
-      _cache[cacheKey] ??= [];
-      _cache[cacheKey]!.add(event);
-
+      await repository.createEvent(date, categoryType, subItemKey);
       return event;
     } catch (e) {
-      print('Error adding event: $e'); // 디버깅용
       rethrow;
     }
   }

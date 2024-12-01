@@ -23,7 +23,7 @@ class PersistentRepositoryDecorator implements CalendarRepository {
         // 로컬에 동기화
         for (final event in events) {
           await _local.createEvent(
-              event.date, event.categoryType, event.subItem);
+              event.date, event.categoryType, event.subItemKey);
         }
         return events;
       } else {
@@ -40,15 +40,15 @@ class PersistentRepositoryDecorator implements CalendarRepository {
   Future<CalendarEvent> createEvent(
     DateTime date,
     CategoryType categoryType,
-    String subItem,
+    String subItemKey,
   ) async {
     // 먼저 로컬에 저장
-    final localEvent = await _local.createEvent(date, categoryType, subItem);
+    final localEvent = await _local.createEvent(date, categoryType, subItemKey);
 
     if (_remote is RemoteCalendarRepository) {
       try {
         // 원격 저장소에도 저장 시도
-        return await _remote.createEvent(date, categoryType, subItem);
+        return await _remote.createEvent(date, categoryType, subItemKey);
       } catch (e) {
         // 원격 저장 실패 시 로컬 이벤트 반환
         return localEvent;

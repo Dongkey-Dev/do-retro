@@ -67,7 +67,7 @@ class CalendarProvider extends ChangeNotifier {
       await _service.addEvent(
         date: event.date,
         categoryType: event.categoryType,
-        subItem: event.subItem,
+        subItemKey: event.subItemKey,
       );
 
       // 날짜를 키로 사용하기 위해 시간 정보 제거

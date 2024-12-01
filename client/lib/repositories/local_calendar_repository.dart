@@ -67,7 +67,7 @@ class LocalCalendarRepository implements CalendarRepository {
   Future<CalendarEvent> createEvent(
     DateTime date,
     CategoryType categoryType,
-    String subItem,
+    String subItemKey,
   ) async {
     final events = await _loadEvents();
     final id = _uuid.v4();
@@ -76,7 +76,7 @@ class LocalCalendarRepository implements CalendarRepository {
       id: id,
       date: date,
       categoryType: categoryType,
-      subItem: subItem,
+      subItemKey: subItemKey,
       createdAt: DateTime.now(),
     );
 

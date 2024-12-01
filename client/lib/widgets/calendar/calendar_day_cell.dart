@@ -36,7 +36,7 @@ class CalendarDayCell extends StatelessWidget {
                   id: DateTime.now().millisecondsSinceEpoch.toString(),
                   date: date,
                   categoryType: category.type,
-                  subItem: subItem,
+                  subItemKey: subItem,
                   createdAt: DateTime.now(),
                 );
 

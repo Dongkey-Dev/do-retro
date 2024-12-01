@@ -111,7 +111,7 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
                   size: 20,
                 ),
               ),
-              title: Text(event.subItem),
+              title: Text(event.getLocalizedSubItem(context)),
               subtitle: Text(
                 '${event.date.month}월 ${event.date.day}일',
                 style: TextStyle(
