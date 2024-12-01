@@ -148,6 +148,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No events this month'**
   String get noEventsThisMonth;
+
+  /// Calendar tab label
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
+  String get navCalendar;
+
+  /// Statistics tab label
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get navStats;
+
+  /// Settings tab label
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get navSettings;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

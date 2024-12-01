@@ -20,5 +20,8 @@
   "dialogDeleteEventContent": "이 일정을 삭제하시겠습니까?",
   "dialogCancel": "취소",
   "dialogDelete": "삭제",
-  "noEventsThisMonth": "이번 달 일정이 없습니다"
+  "noEventsThisMonth": "이번 달 일정이 없습니다",
+  "navCalendar": "캘린더",
+  "navStats": "통계",
+  "navSettings": "설정"
 } 

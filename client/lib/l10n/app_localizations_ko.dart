@@ -32,4 +32,13 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get noEventsThisMonth => '이번 달 일정이 없습니다';
+
+  @override
+  String get navCalendar => '캘린더';
+
+  @override
+  String get navStats => '통계';
+
+  @override
+  String get navSettings => '설정';
 }

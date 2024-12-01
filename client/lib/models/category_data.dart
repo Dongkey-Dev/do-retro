@@ -62,24 +62,24 @@ class CategoryData {
 }
 
 final List<CategoryData> defaultCategories = [
-  const CategoryData(
+  CategoryData(
     type: CategoryType.daily,
-    color: Color(0xFF4CAF50),
-    icon: Icons.home_rounded,
+    icon: CategoryData.categories['daily']!['icon'] as IconData,
+    color: CategoryData.categories['daily']!['color'] as Color,
   ),
-  const CategoryData(
+  CategoryData(
     type: CategoryType.workStudy,
-    color: Color(0xFF2196F3),
-    icon: Icons.work_rounded,
+    icon: CategoryData.categories['workStudy']!['icon'] as IconData,
+    color: CategoryData.categories['workStudy']!['color'] as Color,
   ),
-  const CategoryData(
+  CategoryData(
     type: CategoryType.important,
-    color: Color(0xFFF44336),
-    icon: Icons.priority_high_rounded,
+    icon: CategoryData.categories['important']!['icon'] as IconData,
+    color: CategoryData.categories['important']!['color'] as Color,
   ),
-  const CategoryData(
+  CategoryData(
     type: CategoryType.personal,
-    color: Color(0xFF9C27B0),
-    icon: Icons.person_rounded,
+    icon: CategoryData.categories['personal']!['icon'] as IconData,
+    color: CategoryData.categories['personal']!['color'] as Color,
   ),
 ];

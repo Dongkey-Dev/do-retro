@@ -32,4 +32,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noEventsThisMonth => 'No events this month';
+
+  @override
+  String get navCalendar => 'Calendar';
+
+  @override
+  String get navStats => 'Statistics';
+
+  @override
+  String get navSettings => 'Settings';
 }

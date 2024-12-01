@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pie_menu/pie_menu.dart';
 import 'package:provider/provider.dart';
-import '../../models/category_data.dart';
+import 'package:pie_menu/pie_menu.dart';
 import '../../providers/calendar_provider.dart';
+import '../../models/calendar_event.dart';
+import '../../models/category_data.dart';
 
 class CalendarDayCell extends StatelessWidget {
   final DateTime date;
@@ -17,6 +18,38 @@ class CalendarDayCell extends StatelessWidget {
     required this.onDaySelected,
   });
 
+  void _showSubItems(BuildContext context, CategoryData category) {
+    final calendarProvider = context.read<CalendarProvider>();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(category.getName(context)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: category.getSubItems(context).map((subItem) {
+            return ListTile(
+              title: Text(subItem),
+              onTap: () {
+                final event = CalendarEvent(
+                  id: DateTime.now().millisecondsSinceEpoch.toString(),
+                  date: date,
+                  categoryType: category.type,
+                  subItem: subItem,
+                  createdAt: DateTime.now(),
+                );
+
+                calendarProvider.addEvent(
+                    event.date, event.categoryType, event.subItem);
+                Navigator.pop(context);
+              },
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isSelected = date.year == selectedDate.year &&
@@ -24,7 +57,7 @@ class CalendarDayCell extends StatelessWidget {
         date.day == selectedDate.day;
 
     final calendarProvider = context.watch<CalendarProvider>();
-    final events = calendarProvider.getEventsForDay(date);
+    final events = calendarProvider.getEventsForDay(date) ?? [];
 
     return PieMenu(
       actions: defaultCategories
@@ -43,119 +76,69 @@ class CalendarDayCell extends StatelessWidget {
             ),
           )
           .toList(),
-      child: Container(
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.blue.withOpacity(0.2) : null,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  '${date.day}',
-                  style: TextStyle(
-                    color: date.weekday == DateTime.sunday ? Colors.red : null,
-                    fontWeight: isSelected ? FontWeight.bold : null,
+      child: GestureDetector(
+        onTap: () => onDaySelected(date),
+        child: Container(
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.blue.withOpacity(0.2) : null,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    '${date.day}',
+                    style: TextStyle(
+                      color:
+                          date.weekday == DateTime.sunday ? Colors.red : null,
+                      fontWeight: isSelected ? FontWeight.bold : null,
+                    ),
                   ),
                 ),
               ),
-            ),
-            if (events.isNotEmpty) ...[
-              const SizedBox(height: 4),
-              Wrap(
-                spacing: 4,
-                children: [
-                  ...events.take(maxVisibleIcons).map((event) {
-                    final category = defaultCategories
-                        .firstWhere((c) => c.type == event.categoryType);
-                    return Icon(
-                      category.icon,
-                      color: category.color,
-                      size: 16,
-                    );
-                  }),
-                  if (events.length > maxVisibleIcons)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 4, vertical: 1),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        '+${events.length - maxVisibleIcons}',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.grey[600],
-                          fontWeight: FontWeight.bold,
+              if (events.isNotEmpty) ...[
+                const SizedBox(height: 4),
+                Wrap(
+                  spacing: 4,
+                  children: [
+                    ...events.take(maxVisibleIcons).map((event) {
+                      final category = defaultCategories.firstWhere(
+                        (c) => c.type == event.categoryType,
+                        orElse: () => defaultCategories.first,
+                      );
+                      return Icon(
+                        category.icon,
+                        color: category.color,
+                        size: 16,
+                      );
+                    }),
+                    if (events.length > maxVisibleIcons)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 1,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          '+${events.length - maxVisibleIcons}',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                ],
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showSubItems(BuildContext context, CategoryData category) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (context) => Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 40,
-              height: 4,
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            Row(
-              children: [
-                Icon(category.icon, color: category.color),
-                const SizedBox(width: 12),
-                Text(
-                  category.getName(context),
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: category.color,
-                      ),
+                  ],
                 ),
               ],
-            ),
-            const SizedBox(height: 16),
-            ...category.getSubItems(context).map(
-                  (subItem) => ListTile(
-                    leading: Icon(category.icon,
-                        color: category.color.withOpacity(0.5)),
-                    title: Text(subItem),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    onTap: () {
-                      context.read<CalendarProvider>().addEvent(
-                            date,
-                            category.type,
-                            subItem,
-                          );
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -35,5 +35,17 @@
   "noEventsThisMonth": "No events this month",
   "@noEventsThisMonth": {
     "description": "Message shown when there are no events in the current month"
+  },
+  "navCalendar": "Calendar",
+  "@navCalendar": {
+    "description": "Calendar tab label"
+  },
+  "navStats": "Statistics",
+  "@navStats": {
+    "description": "Statistics tab label"
+  },
+  "navSettings": "Settings",
+  "@navSettings": {
+    "description": "Settings tab label"
   }
 } 

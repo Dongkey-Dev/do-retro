@@ -9,6 +9,9 @@ class CalendarHeader extends StatelessWidget {
     super.key,
     required this.currentMonth,
     required this.viewType,
+    required Null Function() onPreviousMonth,
+    required Null Function() onNextMonth,
+    required Null Function() onTitleTapped,
   });
 
   @override
