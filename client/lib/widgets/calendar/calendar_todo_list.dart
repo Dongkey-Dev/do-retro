@@ -32,7 +32,9 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
     super.didUpdateWidget(oldWidget);
     // 월이 변경될 때마다 새로운 이벤트 로드
     if (oldWidget.currentMonth != widget.currentMonth) {
-      context.read<CalendarProvider>().loadEvents(widget.currentMonth);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.read<CalendarProvider>().loadEvents(widget.currentMonth);
+      });
     }
   }
 

@@ -5,3 +5,8 @@
 # Xcode-related
 **/dgph
 **/xcuserdata/
+
+# project
+**/*.pbxproj
+**/*.xcworkspacedata
+**/*.lock

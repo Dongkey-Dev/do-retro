@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:simple_todo/models/calendar_event.dart';
-import 'package:simple_todo/models/category_data.dart';
 import 'package:simple_todo/services/calendar_service.dart';
 
 class CalendarProvider extends ChangeNotifier {
@@ -27,25 +26,37 @@ class CalendarProvider extends ChangeNotifier {
   Future<void> loadEventsForMonth(DateTime month) async {
     final key = _getCacheKey(month);
 
-    // 이미 캐시에 있다면 스킵
-    if (_eventCache.containsKey(key)) {
-      return;
-    }
-
     try {
       _isLoading = true;
       notifyListeners();
 
+      if (_eventCache.containsKey(key)) {
+        _updateEventsFromCache(key);
+        return;
+      }
+
       final events = await _service.getEventsForMonth(month);
       _eventCache[key] = events;
-
-      _isLoading = false;
-      _error = null;
-      notifyListeners();
+      _updateEventsFromCache(key);
     } catch (e) {
       _error = e.toString();
+    } finally {
       _isLoading = false;
       notifyListeners();
+    }
+  }
+
+  void _updateEventsFromCache(String cacheKey) {
+    final events = _eventCache[cacheKey] ?? [];
+    _events.clear();
+
+    for (final event in events) {
+      final dateKey =
+          DateTime(event.date.year, event.date.month, event.date.day);
+      if (!_events.containsKey(dateKey)) {
+        _events[dateKey] = [];
+      }
+      _events[dateKey]!.add(event);
     }
   }
 

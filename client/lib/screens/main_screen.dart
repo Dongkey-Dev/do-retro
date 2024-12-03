@@ -13,14 +13,15 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-  late DateTime _selectedDate = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
+
+  // 화면 목록을 state에서 한 번만 초기화
+  late final List<Widget> _screens;
 
   @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
-    // screens를 build 메서드 안에서 생성
-    final screens = [
+  void initState() {
+    super.initState();
+    _screens = [
       CalendarView(
         selectedDate: _selectedDate,
         onDaySelected: (date) {
@@ -32,9 +33,17 @@ class _MainScreenState extends State<MainScreen> {
       const Center(child: Text('통계')),
       const SettingsScreen(),
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      body: screens[_selectedIndex], // _screens 대신 screens 사용
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
         onDestinationSelected: (index) {

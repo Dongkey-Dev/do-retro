@@ -129,31 +129,33 @@ class _CalendarViewState extends State<CalendarView> {
             ),
             const SizedBox(height: 8),
             Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                onPageChanged: _onMonthChanged,
-                itemBuilder: (context, index) {
-                  final itemMonth = _monthCache[index] ??
-                      DateTime(
-                        _currentMonth.year,
-                        _currentMonth.month + (index - 1000),
-                      );
-                  return Column(
-                    children: [
-                      MonthView(
-                        monthDate: itemMonth,
-                        selectedDate: widget.selectedDate,
-                        onDaySelected: widget.onDaySelected,
-                      ),
-                      const SizedBox(height: 8),
-                      Expanded(
-                        child: CalendarTodoList(
-                          currentMonth: itemMonth,
-                        ),
-                      ),
-                    ],
-                  );
-                },
+              child: Column(
+                children: [
+                  Expanded(
+                    child: PageView.builder(
+                      controller: _pageController,
+                      onPageChanged: _onMonthChanged,
+                      itemBuilder: (context, index) {
+                        final itemMonth = _monthCache[index] ??
+                            DateTime(
+                              _currentMonth.year,
+                              _currentMonth.month + (index - 1000),
+                            );
+                        return MonthView(
+                          monthDate: itemMonth,
+                          selectedDate: widget.selectedDate,
+                          onDaySelected: widget.onDaySelected,
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Expanded(
+                    child: CalendarTodoList(
+                      currentMonth: _currentMonth,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
