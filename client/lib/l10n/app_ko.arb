@@ -57,5 +57,7 @@
   "subItemHobby": "취미",
   "subItemExercise": "운동",
   "subItemShopping": "쇼핑",
-  "subItemSelfDevelopment": "자기계발"
+  "subItemSelfDevelopment": "자기계발",
+  "monthLabel": "월",
+  "dayLabel": "일"
 } 

@@ -8,6 +8,13 @@ enum CategoryType {
   personal,
 }
 
+class SubItemData {
+  final String key;
+  final String localizedText;
+
+  SubItemData(this.key, this.localizedText);
+}
+
 class CategoryData {
   final CategoryType type;
   final Color color;
@@ -34,10 +41,35 @@ class CategoryData {
     }
   }
 
-  // 카테고리의 하위 항목들을 현재 로케일에 맞게 반환
-  List<String> getSubItems(BuildContext context) {
+  // 카테고리의 하위 항목들을 현와 현지화된 텍스트 쌍으로 반환
+  List<SubItemData> getSubItemsWithKeys(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final categoryKey = type.name;
-    return CategoryData.getLocalizedSubItems(context, categoryKey);
+    final subItemKeys =
+        categories[categoryKey]?['subItemKeys'] as List<String>? ?? [];
+
+    return subItemKeys.map((key) {
+      String localizedText = switch (key) {
+        'subItemMorningExercise' => l10n.subItemMorningExercise,
+        'subItemReading' => l10n.subItemReading,
+        'subItemMeditation' => l10n.subItemMeditation,
+        'subItemDiary' => l10n.subItemDiary,
+        'subItemMeeting' => l10n.subItemMeeting,
+        'subItemReport' => l10n.subItemReport,
+        'subItemProject' => l10n.subItemProject,
+        'subItemStudy' => l10n.subItemStudy,
+        'subItemDeadline' => l10n.subItemDeadline,
+        'subItemAppointment' => l10n.subItemAppointment,
+        'subItemImportantMeeting' => l10n.subItemImportantMeeting,
+        'subItemUrgentTask' => l10n.subItemUrgentTask,
+        'subItemHobby' => l10n.subItemHobby,
+        'subItemExercise' => l10n.subItemExercise,
+        'subItemShopping' => l10n.subItemShopping,
+        'subItemSelfDevelopment' => l10n.subItemSelfDevelopment,
+        _ => key
+      };
+      return SubItemData(key, localizedText);
+    }).toList();
   }
 
   static final Map<String, Map<String, dynamic>> categories = {
@@ -82,52 +114,6 @@ class CategoryData {
       ],
     },
   };
-
-  static List<String> getLocalizedSubItems(
-      BuildContext context, String category) {
-    final l10n = AppLocalizations.of(context)!;
-    final subItemKeys =
-        categories[category]?['subItemKeys'] as List<String>? ?? [];
-
-    return subItemKeys.map((key) {
-      switch (key) {
-        case 'subItemMorningExercise':
-          return l10n.subItemMorningExercise;
-        case 'subItemReading':
-          return l10n.subItemReading;
-        case 'subItemMeditation':
-          return l10n.subItemMeditation;
-        case 'subItemDiary':
-          return l10n.subItemDiary;
-        case 'subItemMeeting':
-          return l10n.subItemMeeting;
-        case 'subItemReport':
-          return l10n.subItemReport;
-        case 'subItemProject':
-          return l10n.subItemProject;
-        case 'subItemStudy':
-          return l10n.subItemStudy;
-        case 'subItemDeadline':
-          return l10n.subItemDeadline;
-        case 'subItemAppointment':
-          return l10n.subItemAppointment;
-        case 'subItemImportantMeeting':
-          return l10n.subItemImportantMeeting;
-        case 'subItemUrgentTask':
-          return l10n.subItemUrgentTask;
-        case 'subItemHobby':
-          return l10n.subItemHobby;
-        case 'subItemExercise':
-          return l10n.subItemExercise;
-        case 'subItemShopping':
-          return l10n.subItemShopping;
-        case 'subItemSelfDevelopment':
-          return l10n.subItemSelfDevelopment;
-        default:
-          return key;
-      }
-    }).toList();
-  }
 }
 
 final List<CategoryData> defaultCategories = [

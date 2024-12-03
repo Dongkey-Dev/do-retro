@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/calendar_provider.dart';
-import '../../models/calendar_event.dart';
 import '../../models/category_data.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -47,8 +46,8 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
 
     // 로딩 상태 처리
     if (provider.isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
+      return Center(
+        child: Text(l10n.noEventsThisMonth),
       );
     }
 
@@ -115,7 +114,7 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
               ),
               title: Text(event.getLocalizedSubItem(context)),
               subtitle: Text(
-                '${event.date.month}월 ${event.date.day}일',
+                '${event.date.month}${l10n.monthLabel} ${event.date.day}${l10n.dayLabel}',
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 12,

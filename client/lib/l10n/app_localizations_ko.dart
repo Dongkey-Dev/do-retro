@@ -134,4 +134,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get subItemSelfDevelopment => '자기계발';
+
+  @override
+  String get monthLabel => '월';
+
+  @override
+  String get dayLabel => '일';
 }

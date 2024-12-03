@@ -28,31 +28,46 @@ class MonthView extends StatelessWidget {
     final cellHeight = availableHeight / 12;
     final childAspectRatio = cellWidth / cellHeight;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          height: 30,
-          child: _buildWeekdayNames(context),
-        ),
-        const SizedBox(height: 8),
-        Flexible(
-          child: GridView.builder(
+    return GestureDetector(
+      onHorizontalDragEnd: (details) {
+        if (details.primaryVelocity == null) return;
+
+        if (details.primaryVelocity! > 0) {
+          onDaySelected(
+            DateTime(monthDate.year, monthDate.month - 1, 1),
+          );
+        } else {
+          onDaySelected(
+            DateTime(monthDate.year, monthDate.month + 1, 1),
+          );
+        }
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 7,
-              childAspectRatio: childAspectRatio,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-            ),
-            itemCount: _calculateItemCount(),
-            itemBuilder: (context, index) => _buildMonthViewCell(index),
+            height: 30,
+            child: _buildWeekdayNames(context),
           ),
-        ),
-      ],
+          const SizedBox(height: 8),
+          Flexible(
+            child: GridView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 7,
+                childAspectRatio: childAspectRatio,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+              ),
+              itemCount: _calculateItemCount(),
+              itemBuilder: (context, index) => _buildMonthViewCell(index),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

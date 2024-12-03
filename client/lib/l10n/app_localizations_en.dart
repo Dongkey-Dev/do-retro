@@ -134,4 +134,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get subItemSelfDevelopment => 'Self Development';
+
+  @override
+  String get monthLabel => '.';
+
+  @override
+  String get dayLabel => '';
 }

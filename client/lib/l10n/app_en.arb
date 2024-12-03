@@ -90,5 +90,7 @@
   "subItemHobby": "Hobby",
   "subItemExercise": "Exercise",
   "subItemShopping": "Shopping",
-  "subItemSelfDevelopment": "Self Development"
+  "subItemSelfDevelopment": "Self Development",
+  "monthLabel": ".",
+  "dayLabel": ""
 } 

@@ -28,15 +28,15 @@ class CalendarDayCell extends StatelessWidget {
         title: Text(category.getName(context)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
-          children: category.getSubItems(context).map((subItem) {
+          children: category.getSubItemsWithKeys(context).map((subItemData) {
             return ListTile(
-              title: Text(subItem),
+              title: Text(subItemData.localizedText),
               onTap: () {
                 final event = CalendarEvent(
                   id: DateTime.now().millisecondsSinceEpoch.toString(),
                   date: date,
                   categoryType: category.type,
-                  subItemKey: subItem,
+                  subItemKey: subItemData.key,
                   createdAt: DateTime.now(),
                 );
 

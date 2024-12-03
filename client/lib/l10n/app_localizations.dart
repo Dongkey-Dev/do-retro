@@ -352,6 +352,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Self Development'**
   String get subItemSelfDevelopment;
+
+  /// No description provided for @monthLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'.'**
+  String get monthLabel;
+
+  /// No description provided for @dayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **''**
+  String get dayLabel;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
