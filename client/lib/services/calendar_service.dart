@@ -43,6 +43,7 @@ class CalendarService {
     required String subItemKey,
     TimeOfDay? startTime, // 시작 시간 추가
     TimeOfDay? endTime, // 종료 시간 추가
+    String? description,
   }) async {
     try {
       final event = CalendarEvent(
@@ -53,6 +54,7 @@ class CalendarService {
         createdAt: DateTime.now(),
         startTime: startTime,
         endTime: endTime,
+        description: description,
       );
 
       await repository.createEvent(
@@ -61,6 +63,7 @@ class CalendarService {
         subItemKey,
         startTime: startTime,
         endTime: endTime,
+        description: description,
       );
       return event;
     } catch (e) {
@@ -94,11 +97,8 @@ class CalendarService {
 
       // 캐시된 데이터가 있으면 반환
       if (_cache.containsKey(cacheKey)) {
-        print('Returning cached events for $cacheKey'); // 디버깅용
         return _cache[cacheKey]!;
       }
-
-      print('Fetching events for $cacheKey'); // 디버깅용
 
       // 저장소에서 해당 월의 이벤트 가져오기
       final events = await repository.getEvents(start, end);
@@ -106,10 +106,8 @@ class CalendarService {
       // 캐시에 저장
       _cache[cacheKey] = events;
 
-      print('Fetched ${events.length} events for $cacheKey'); // 디버깅용
       return events;
     } catch (e) {
-      print('Error getting events for month: $e'); // 디버깅용
       rethrow;
     }
   }
@@ -126,11 +124,25 @@ class CalendarService {
     ]);
   }
 
-  // 캐시 상태 확인 (디버깅용)
-  void printCacheStatus() {
-    print('Current cache status:');
-    _cache.forEach((key, events) {
-      print('$key: ${events.length} events');
-    });
+  Future<CalendarEvent> updateEvent(CalendarEvent event) async {
+    try {
+      await repository.updateEvent(event.id, event);
+
+      // 해당 월의 캐시 키 생성
+      final cacheKey = '${event.date.year}-${event.date.month}';
+
+      // 해당 월의 캐시가 있다면 업데이트
+      if (_cache.containsKey(cacheKey)) {
+        final events = _cache[cacheKey]!;
+        final index = events.indexWhere((e) => e.id == event.id);
+        if (index != -1) {
+          events[index] = event;
+        }
+      }
+
+      return event;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

@@ -173,4 +173,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get allDay => 'All day';
+
+  @override
+  String get eventDetails => 'Event Details';
+
+  @override
+  String get todoDescription => 'Schedule description';
+
+  @override
+  String get enterDescription => 'Please enter description';
+
+  @override
+  String get save => 'Save';
 }

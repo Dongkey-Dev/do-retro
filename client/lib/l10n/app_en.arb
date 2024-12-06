@@ -103,5 +103,9 @@
   "selectStartTimeFirst": "Please select start time first",
   "endTimeMustBeAfterStart": "End time must be after start time",
   "selectEndTimeFirst": "Please select end time",
-  "allDay": "All day"
+  "allDay": "All day",
+  "eventDetails": "Event Details",
+  "todoDescription": "Schedule description",
+  "enterDescription": "Please enter description",
+  "save": "Save"
 } 

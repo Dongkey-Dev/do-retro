@@ -173,4 +173,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get allDay => '종일';
+
+  @override
+  String get eventDetails => '일정 상세';
+
+  @override
+  String get todoDescription => '일정 설명';
+
+  @override
+  String get enterDescription => '설명을 입력하세요';
+
+  @override
+  String get save => '저장';
 }

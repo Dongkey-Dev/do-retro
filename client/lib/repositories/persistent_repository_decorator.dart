@@ -29,6 +29,7 @@ class PersistentRepositoryDecorator implements CalendarRepository {
             event.subItemKey,
             startTime: event.startTime,
             endTime: event.endTime,
+            description: event.description,
           );
         }
         return events;
@@ -49,6 +50,7 @@ class PersistentRepositoryDecorator implements CalendarRepository {
     String subItemKey, {
     TimeOfDay? startTime,
     TimeOfDay? endTime,
+    String? description,
   }) async {
     // 먼저 로컬에 저장
     final localEvent = await _local.createEvent(
@@ -57,6 +59,7 @@ class PersistentRepositoryDecorator implements CalendarRepository {
       subItemKey,
       startTime: startTime,
       endTime: endTime,
+      description: description,
     );
 
     if (_remote is RemoteCalendarRepository) {
@@ -68,6 +71,7 @@ class PersistentRepositoryDecorator implements CalendarRepository {
           subItemKey,
           startTime: startTime,
           endTime: endTime,
+          description: description,
         );
       } catch (e) {
         // 원격 저장 실패 시 로컬 이벤트 반환

@@ -172,6 +172,18 @@ class CalendarDayCell extends StatelessWidget {
     final events = calendarProvider.getEventsForDay(date);
 
     return PieMenu(
+      theme: Theme.of(context).brightness == Brightness.dark
+          ? const PieTheme(
+              delayDuration: Duration(milliseconds: 200),
+              brightness: Brightness.dark,
+              overlayColor: Colors.black54,
+            )
+          : const PieTheme(
+              delayDuration: Duration(milliseconds: 200),
+              brightness: Brightness.light,
+              overlayColor: Colors.white54,
+            ),
+      onPressed: () => onDaySelected(date),
       actions: defaultCategories
           .map(
             (category) => PieAction(
@@ -188,72 +200,69 @@ class CalendarDayCell extends StatelessWidget {
             ),
           )
           .toList(),
-      child: GestureDetector(
-        onTap: () => onDaySelected(date),
-        child: Container(
-          decoration: BoxDecoration(
-            color: isSelected
-                ? calendarTheme.selectedDayColor.withOpacity(0.2)
-                : null,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    '${date.day}',
-                    style: TextStyle(
-                      color: date.weekday == DateTime.sunday
-                          ? calendarTheme.sundayTextColor
-                          : calendarTheme.dayTextColor,
-                      fontWeight: isSelected ? FontWeight.bold : null,
-                    ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: isSelected
+              ? calendarTheme.selectedDayColor.withOpacity(0.2)
+              : null,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  '${date.day}',
+                  style: TextStyle(
+                    color: date.weekday == DateTime.sunday
+                        ? calendarTheme.sundayTextColor
+                        : calendarTheme.dayTextColor,
+                    fontWeight: isSelected ? FontWeight.bold : null,
                   ),
                 ),
               ),
-              if (events.isNotEmpty) ...[
-                const SizedBox(height: 4),
-                Wrap(
-                  spacing: 4,
-                  children: [
-                    ...events.take(maxVisibleIcons).map((event) {
-                      final category = defaultCategories.firstWhere(
-                        (c) => c.type == event.categoryType,
-                        orElse: () => defaultCategories.first,
-                      );
-                      return Icon(
-                        category.icon,
-                        color: category.color,
-                        size: 16,
-                      );
-                    }),
-                    if (events.length > maxVisibleIcons)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 4,
-                          vertical: 1,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          '+${events.length - maxVisibleIcons}',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.bold,
-                          ),
+            ),
+            if (events.isNotEmpty) ...[
+              const SizedBox(height: 4),
+              Wrap(
+                spacing: 4,
+                children: [
+                  ...events.take(maxVisibleIcons).map((event) {
+                    final category = defaultCategories.firstWhere(
+                      (c) => c.type == event.categoryType,
+                      orElse: () => defaultCategories.first,
+                    );
+                    return Icon(
+                      category.icon,
+                      color: category.color,
+                      size: 16,
+                    );
+                  }),
+                  if (events.length > maxVisibleIcons)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 1,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        '+${events.length - maxVisibleIcons}',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.grey[600],
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                  ],
-                ),
-              ],
+                    ),
+                ],
+              ),
             ],
-          ),
+          ],
         ),
       ),
     );

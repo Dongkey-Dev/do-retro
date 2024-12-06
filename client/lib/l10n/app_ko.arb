@@ -70,5 +70,9 @@
   "selectStartTimeFirst": "시작 시간을 먼저 선택해주세요",
   "endTimeMustBeAfterStart": "종료 시간은 시작 시간보다 늦어야 합니다",
   "selectEndTimeFirst": "종료 시간을 선택해주세요",
-  "allDay": "종일"
+  "allDay": "종일",
+  "eventDetails": "일정 상세",
+  "todoDescription": "일정 설명",
+  "enterDescription": "설명을 입력하세요",
+  "save": "저장"
 } 

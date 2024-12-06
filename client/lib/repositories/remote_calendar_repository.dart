@@ -57,6 +57,7 @@ class RemoteCalendarRepository implements CalendarRepository {
     String subItem, {
     TimeOfDay? startTime,
     TimeOfDay? endTime,
+    String? description,
   }) async {
     try {
       final response = await dio.post(
@@ -65,6 +66,7 @@ class RemoteCalendarRepository implements CalendarRepository {
           'date': date.toIso8601String(),
           'categoryType': categoryType.name,
           'subItem': subItem,
+          'description': description,
         },
       );
 

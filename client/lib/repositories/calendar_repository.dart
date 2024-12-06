@@ -11,6 +11,7 @@ abstract class CalendarRepository {
     String subItem, {
     TimeOfDay? startTime,
     TimeOfDay? endTime,
+    String? description,
   });
   Future<CalendarEvent> updateEvent(String id, CalendarEvent event);
   Future<void> deleteEvent(String id);

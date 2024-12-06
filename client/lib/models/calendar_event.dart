@@ -11,6 +11,7 @@ class CalendarEvent {
   final DateTime? updatedAt;
   final TimeOfDay? startTime;
   final TimeOfDay? endTime;
+  final String? description;
 
   CalendarEvent({
     required this.id,
@@ -21,6 +22,7 @@ class CalendarEvent {
     this.updatedAt,
     this.startTime,
     this.endTime,
+    this.description,
   });
 
   String getLocalizedSubItem(BuildContext context) {
@@ -86,13 +88,14 @@ class CalendarEvent {
           : null,
       startTime: parseTimeOfDay(json['startTime'] as String?),
       endTime: parseTimeOfDay(json['endTime'] as String?),
+      description: json['description'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     String? timeOfDayToString(TimeOfDay? time) {
       if (time == null) return null;
-      return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+      return '${time.hour}:${time.minute}';
     }
 
     return {
@@ -104,6 +107,7 @@ class CalendarEvent {
       'updatedAt': updatedAt?.toIso8601String(),
       'startTime': timeOfDayToString(startTime),
       'endTime': timeOfDayToString(endTime),
+      'description': description,
     };
   }
 
@@ -116,6 +120,7 @@ class CalendarEvent {
     DateTime? updatedAt,
     TimeOfDay? startTime,
     TimeOfDay? endTime,
+    String? description,
   }) {
     return CalendarEvent(
       id: id ?? this.id,
@@ -126,6 +131,7 @@ class CalendarEvent {
       updatedAt: updatedAt ?? this.updatedAt,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
+      description: description ?? this.description,
     );
   }
 }

@@ -29,7 +29,6 @@ class CalendarProvider extends ChangeNotifier {
     try {
       _isLoading = true;
       notifyListeners();
-
       if (_eventCache.containsKey(key)) {
         _updateEventsFromCache(key);
         return;
@@ -81,6 +80,7 @@ class CalendarProvider extends ChangeNotifier {
         subItemKey: event.subItemKey,
         startTime: event.startTime,
         endTime: event.endTime,
+        description: event.description,
       );
 
       // 날짜를 키로 사용하기 위해 시간 정보 제거
@@ -192,6 +192,39 @@ class CalendarProvider extends ChangeNotifier {
           _events[dateKey] = [];
         }
         _events[dateKey]!.add(event);
+      }
+
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
+      _error = e.toString();
+      notifyListeners();
+      rethrow;
+    }
+  }
+
+  Future<void> updateEvent(CalendarEvent event) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      // 서비스를 통해 이벤트 업데이트
+      await _service.updateEvent(event);
+
+      // 날짜를 키로 사용하기 위해 시간 정보 제거
+      final dateKey = DateTime(
+        event.date.year,
+        event.date.month,
+        event.date.day,
+      );
+
+      // _events 맵에서 이벤트 업데이트
+      if (_events[dateKey] != null) {
+        final index = _events[dateKey]!.indexWhere((e) => e.id == event.id);
+        if (index != -1) {
+          _events[dateKey]![index] = event;
+        }
       }
 
       _isLoading = false;

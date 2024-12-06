@@ -66,6 +66,7 @@ class LocalCalendarRepository implements CalendarRepository {
     String subItemKey, {
     TimeOfDay? startTime,
     TimeOfDay? endTime,
+    String? description,
   }) async {
     final events = await _loadEvents();
     final id = _uuid.v4();
@@ -78,6 +79,7 @@ class LocalCalendarRepository implements CalendarRepository {
       createdAt: DateTime.now(),
       startTime: startTime,
       endTime: endTime,
+      description: description,
     );
 
     events[id] = event;

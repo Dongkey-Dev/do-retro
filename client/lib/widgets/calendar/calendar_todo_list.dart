@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_todo/models/calendar_event.dart';
 import '../../providers/calendar_provider.dart';
 import '../../models/category_data.dart';
 import '../../l10n/app_localizations.dart';
@@ -138,43 +139,132 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
                 ),
               ),
               title: Text(event.getLocalizedSubItem(context)),
-              subtitle: Text(
-                '${event.date.month}${l10n.monthLabel} ${event.date.day}${l10n.dayLabel}$timeInfo',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 12,
-                ),
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete_outline),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text(l10n.dialogDeleteEventTitle),
-                      content: Text(l10n.dialogDeleteEventContent),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text(l10n.cancel),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            provider.deleteEvent(event.id);
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            l10n.dialogDelete,
-                            style: const TextStyle(color: Colors.red),
-                          ),
-                        ),
-                      ],
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${event.date.month}${l10n.monthLabel} ${event.date.day}${l10n.dayLabel}$timeInfo',
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 12,
                     ),
-                  );
-                },
+                  ),
+                  if (event.description != null)
+                    Text(
+                      event.description!,
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 12,
+                      ),
+                    ),
+                ],
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.description_outlined),
+                    onPressed: () {
+                      _showDescriptionDialog(context, event);
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete_outline),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text(l10n.dialogDeleteEventTitle),
+                          content: Text(l10n.dialogDeleteEventContent),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(l10n.cancel),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                provider.deleteEvent(event.id);
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                l10n.dialogDelete,
+                                style: const TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  // description 다이얼로그를 보여주는 메서드 추가
+  void _showDescriptionDialog(BuildContext context, CalendarEvent event) {
+    final textController = TextEditingController(text: event.description);
+    final l10n = AppLocalizations.of(context)!;
+
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.8, // 화면 너비의 80%
+          height: MediaQuery.of(context).size.height * 0.4, // 화면 높이의 40%
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.todoDescription,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: TextField(
+                  controller: textController,
+                  maxLines: null, // 무제한 줄 수
+                  expands: true, // 사용 가능한 공간을 모두 사용
+                  textAlignVertical: TextAlignVertical.top,
+                  decoration: InputDecoration(
+                    hintText: l10n.enterDescription,
+                    border: const OutlineInputBorder(),
+                    contentPadding: const EdgeInsets.all(12),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(l10n.cancel),
+                  ),
+                  const SizedBox(width: 8),
+                  TextButton(
+                    onPressed: () {
+                      final updatedEvent = event.copyWith(
+                        description: textController.text,
+                        updatedAt: DateTime.now(),
+                      );
+                      context
+                          .read<CalendarProvider>()
+                          .updateEvent(updatedEvent);
+                      Navigator.pop(context);
+                    },
+                    child: Text(l10n.save),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

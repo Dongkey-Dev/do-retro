@@ -430,6 +430,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All day'**
   String get allDay;
+
+  /// No description provided for @eventDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Event Details'**
+  String get eventDetails;
+
+  /// No description provided for @todoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule description'**
+  String get todoDescription;
+
+  /// No description provided for @enterDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter description'**
+  String get enterDescription;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
