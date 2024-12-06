@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:simple_todo/exceptions/calendar_exception.dart';
 import 'package:simple_todo/models/calendar_event.dart';
 import 'package:simple_todo/models/category_data.dart';
@@ -53,8 +54,10 @@ class RemoteCalendarRepository implements CalendarRepository {
   Future<CalendarEvent> createEvent(
     DateTime date,
     CategoryType categoryType,
-    String subItem,
-  ) async {
+    String subItem, {
+    TimeOfDay? startTime,
+    TimeOfDay? endTime,
+  }) async {
     try {
       final response = await dio.post(
         '/events',

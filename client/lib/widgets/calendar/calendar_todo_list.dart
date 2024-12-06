@@ -102,6 +102,31 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
             final category = defaultCategories.firstWhere(
               (c) => c.type == event.categoryType,
             );
+            final l10n = AppLocalizations.of(context)!;
+
+            // 시간 정보 포맷팅
+            String timeInfo = '';
+            if (event.startTime == null && event.endTime == null) {
+              timeInfo = ' ${l10n.allDay}'; // '종일'
+            } else if (event.startTime == null) {
+              final endPeriod =
+                  event.endTime!.period == DayPeriod.am ? l10n.am : l10n.pm;
+              timeInfo =
+                  ' ${l10n.allDay} - ${endPeriod} ${event.endTime!.hourOfPeriod}:${event.endTime!.minute.toString().padLeft(2, '0')}';
+            } else if (event.endTime == null) {
+              final startPeriod =
+                  event.startTime!.period == DayPeriod.am ? l10n.am : l10n.pm;
+              timeInfo =
+                  ' ${startPeriod} ${event.startTime!.hourOfPeriod}:${event.startTime!.minute.toString().padLeft(2, '0')} - ${l10n.allDay}';
+            } else {
+              final startPeriod =
+                  event.startTime!.period == DayPeriod.am ? l10n.am : l10n.pm;
+              final endPeriod =
+                  event.endTime!.period == DayPeriod.am ? l10n.am : l10n.pm;
+              timeInfo =
+                  ' ${startPeriod} ${event.startTime!.hourOfPeriod}:${event.startTime!.minute.toString().padLeft(2, '0')} - '
+                  '${endPeriod} ${event.endTime!.hourOfPeriod}:${event.endTime!.minute.toString().padLeft(2, '0')}';
+            }
 
             return ListTile(
               leading: CircleAvatar(
@@ -114,7 +139,7 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
               ),
               title: Text(event.getLocalizedSubItem(context)),
               subtitle: Text(
-                '${event.date.month}${l10n.monthLabel} ${event.date.day}${l10n.dayLabel}',
+                '${event.date.month}${l10n.monthLabel} ${event.date.day}${l10n.dayLabel}$timeInfo',
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 12,
@@ -131,7 +156,7 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context),
-                          child: Text(l10n.dialogCancel),
+                          child: Text(l10n.cancel),
                         ),
                         TextButton(
                           onPressed: () {

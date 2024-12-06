@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pie_menu/pie_menu.dart';
 import '../widgets/calendar/calendar_view.dart';
 import '../l10n/app_localizations.dart';
 import '../screens/settings_screen.dart';

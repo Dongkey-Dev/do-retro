@@ -92,5 +92,16 @@
   "subItemShopping": "Shopping",
   "subItemSelfDevelopment": "Self Development",
   "monthLabel": ".",
-  "dayLabel": ""
+  "dayLabel": "",
+  "am": "AM",
+  "pm": "PM",
+  "startTime": "Start Time",
+  "endTime": "End Time",
+  "select": "Select",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "selectStartTimeFirst": "Please select start time first",
+  "endTimeMustBeAfterStart": "End time must be after start time",
+  "selectEndTimeFirst": "Please select end time",
+  "allDay": "All day"
 } 

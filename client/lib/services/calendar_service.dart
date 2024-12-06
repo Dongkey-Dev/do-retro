@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:simple_todo/models/calendar_event.dart';
 import 'package:simple_todo/models/category_data.dart';
 import 'package:simple_todo/repositories/calendar_repository.dart';
@@ -40,6 +41,8 @@ class CalendarService {
     required DateTime date,
     required CategoryType categoryType,
     required String subItemKey,
+    TimeOfDay? startTime, // 시작 시간 추가
+    TimeOfDay? endTime, // 종료 시간 추가
   }) async {
     try {
       final event = CalendarEvent(
@@ -48,9 +51,17 @@ class CalendarService {
         categoryType: categoryType,
         subItemKey: subItemKey,
         createdAt: DateTime.now(),
+        startTime: startTime,
+        endTime: endTime,
       );
 
-      await repository.createEvent(date, categoryType, subItemKey);
+      await repository.createEvent(
+        date,
+        categoryType,
+        subItemKey,
+        startTime: startTime,
+        endTime: endTime,
+      );
       return event;
     } catch (e) {
       rethrow;

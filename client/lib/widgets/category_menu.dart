@@ -86,6 +86,10 @@ class CategoryMenu extends StatelessWidget {
   }
 
   Widget _buildSubItems(BuildContext context, String category) {
+    final categoryData = defaultCategories.firstWhere(
+      (c) => c.type.name == category,
+    );
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -94,12 +98,13 @@ class CategoryMenu extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: CategoryData.getLocalizedSubItems(context, category)
+        children: categoryData
+            .getSubItemsWithKeys(context)
             .map(
-              (item) => ListTile(
-                title: Text(item),
+              (subItem) => ListTile(
+                title: Text(subItem.localizedText),
                 onTap: () {
-                  onSubItemSelected?.call(category, item);
+                  onSubItemSelected?.call(category, subItem.key);
                   onDismiss();
                 },
               ),

@@ -74,11 +74,13 @@ class CalendarProvider extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      // Firestore에 이벤트 추가
+      // Firestore에 이벤트 추가 (시간 정보는 선택적)
       await _service.addEvent(
         date: event.date,
         categoryType: event.categoryType,
         subItemKey: event.subItemKey,
+        startTime: event.startTime,
+        endTime: event.endTime,
       );
 
       // 날짜를 키로 사용하기 위해 시간 정보 제거
@@ -128,7 +130,7 @@ class CalendarProvider extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print('Error loading initial data: $e'); // 디버깅용 로그
+      print('Error loading initial data: $e'); // 버깅용 로그
     }
   }
 
@@ -178,7 +180,7 @@ class CalendarProvider extends ChangeNotifier {
       final events = await _service.getEvents(startOfMonth, endOfMonth);
       _events.clear();
 
-      // 받아온 이벤트들을 날짜별로 분류
+      // 받아온 이벤트을 날짜별로 분류
       for (var event in events) {
         final dateKey = DateTime(
           event.date.year,

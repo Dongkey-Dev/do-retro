@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:simple_todo/models/category_data.dart';
 import '../models/calendar_event.dart';
 
@@ -5,7 +6,12 @@ import '../models/calendar_event.dart';
 abstract class CalendarRepository {
   Future<List<CalendarEvent>> getEvents(DateTime start, DateTime end);
   Future<CalendarEvent> createEvent(
-      DateTime date, CategoryType categoryType, String subItem);
+    DateTime date,
+    CategoryType categoryType,
+    String subItem, {
+    TimeOfDay? startTime,
+    TimeOfDay? endTime,
+  });
   Future<CalendarEvent> updateEvent(String id, CalendarEvent event);
   Future<void> deleteEvent(String id);
 }

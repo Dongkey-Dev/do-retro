@@ -9,6 +9,8 @@ class CalendarEvent {
   final String subItemKey;
   final DateTime createdAt;
   final DateTime? updatedAt;
+  final TimeOfDay? startTime;
+  final TimeOfDay? endTime;
 
   CalendarEvent({
     required this.id,
@@ -17,6 +19,8 @@ class CalendarEvent {
     required this.subItemKey,
     required this.createdAt,
     this.updatedAt,
+    this.startTime,
+    this.endTime,
   });
 
   String getLocalizedSubItem(BuildContext context) {
@@ -60,19 +64,37 @@ class CalendarEvent {
   }
 
   factory CalendarEvent.fromJson(Map<String, dynamic> json) {
+    TimeOfDay? parseTimeOfDay(String? timeStr) {
+      if (timeStr == null) return null;
+      final parts = timeStr.split(':');
+      return TimeOfDay(
+        hour: int.parse(parts[0]),
+        minute: int.parse(parts[1]),
+      );
+    }
+
     return CalendarEvent(
       id: json['id'] as String,
       date: DateTime.parse(json['date'] as String),
-      categoryType: CategoryType.values.byName(json['categoryType'] as String),
+      categoryType: CategoryType.values.firstWhere(
+        (e) => e.toString().split('.').last == json['categoryType'],
+      ),
       subItemKey: json['subItemKey'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: json['updatedAt'] != null
           ? DateTime.parse(json['updatedAt'] as String)
           : null,
+      startTime: parseTimeOfDay(json['startTime'] as String?),
+      endTime: parseTimeOfDay(json['endTime'] as String?),
     );
   }
 
   Map<String, dynamic> toJson() {
+    String? timeOfDayToString(TimeOfDay? time) {
+      if (time == null) return null;
+      return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+    }
+
     return {
       'id': id,
       'date': date.toIso8601String(),
@@ -80,6 +102,8 @@ class CalendarEvent {
       'subItemKey': subItemKey,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
+      'startTime': timeOfDayToString(startTime),
+      'endTime': timeOfDayToString(endTime),
     };
   }
 
@@ -90,6 +114,8 @@ class CalendarEvent {
     String? subItemKey,
     DateTime? createdAt,
     DateTime? updatedAt,
+    TimeOfDay? startTime,
+    TimeOfDay? endTime,
   }) {
     return CalendarEvent(
       id: id ?? this.id,
@@ -98,6 +124,8 @@ class CalendarEvent {
       subItemKey: subItemKey ?? this.subItemKey,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      startTime: startTime ?? this.startTime,
+      endTime: endTime ?? this.endTime,
     );
   }
 }

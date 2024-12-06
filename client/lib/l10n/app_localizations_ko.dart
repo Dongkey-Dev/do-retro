@@ -140,4 +140,37 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get dayLabel => '일';
+
+  @override
+  String get am => '오전';
+
+  @override
+  String get pm => '오후';
+
+  @override
+  String get startTime => '시작 시간';
+
+  @override
+  String get endTime => '종료 시간';
+
+  @override
+  String get select => '선택하세요';
+
+  @override
+  String get cancel => '취소';
+
+  @override
+  String get confirm => '확인';
+
+  @override
+  String get selectStartTimeFirst => '시작 시간을 먼저 선택해주세요';
+
+  @override
+  String get endTimeMustBeAfterStart => '종료 시간은 시작 시간보다 늦어야 합니다';
+
+  @override
+  String get selectEndTimeFirst => '종료 시간을 선택해주세요';
+
+  @override
+  String get allDay => '종일';
 }

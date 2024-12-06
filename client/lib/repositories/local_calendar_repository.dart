@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_todo/exceptions/calendar_exception.dart';
 import 'package:simple_todo/models/calendar_event.dart';
@@ -19,7 +20,6 @@ class LocalCalendarRepository implements CalendarRepository {
     if (_eventsCache != null) return _eventsCache!;
 
     final String? jsonStr = prefs.getString(_storageKey);
-    print('Loaded JSON: $jsonStr');
 
     if (jsonStr == null) {
       _eventsCache = {};
@@ -34,10 +34,8 @@ class LocalCalendarRepository implements CalendarRepository {
           CalendarEvent.fromJson(value as Map<String, dynamic>),
         );
       });
-      print('Loaded events: ${_eventsCache?.length}');
       return _eventsCache!;
     } catch (e) {
-      print('Error loading events: $e');
       _eventsCache = {};
       return {};
     }
@@ -47,7 +45,6 @@ class LocalCalendarRepository implements CalendarRepository {
     _eventsCache = events;
     final jsonMap = events.map((key, value) => MapEntry(key, value.toJson()));
     final jsonStr = json.encode(jsonMap);
-    print('Saving JSON: $jsonStr');
     await prefs.setString(_storageKey, jsonStr);
   }
 
@@ -59,7 +56,6 @@ class LocalCalendarRepository implements CalendarRepository {
               .isBefore(DateTime(start.year, start.month, start.day)) &&
           !event.date.isAfter(DateTime(end.year, end.month, end.day));
     }).toList();
-    print('Retrieved events: ${filteredEvents.length}');
     return filteredEvents;
   }
 
@@ -67,8 +63,10 @@ class LocalCalendarRepository implements CalendarRepository {
   Future<CalendarEvent> createEvent(
     DateTime date,
     CategoryType categoryType,
-    String subItemKey,
-  ) async {
+    String subItemKey, {
+    TimeOfDay? startTime,
+    TimeOfDay? endTime,
+  }) async {
     final events = await _loadEvents();
     final id = _uuid.v4();
 
@@ -78,11 +76,12 @@ class LocalCalendarRepository implements CalendarRepository {
       categoryType: categoryType,
       subItemKey: subItemKey,
       createdAt: DateTime.now(),
+      startTime: startTime,
+      endTime: endTime,
     );
 
     events[id] = event;
     await _saveEvents(events);
-    print('Created event: $id');
     return event;
   }
 

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:simple_todo/models/calendar_event.dart';
 import 'package:simple_todo/models/category_data.dart';
 import 'package:simple_todo/repositories/calendar_repository.dart';
@@ -23,7 +24,12 @@ class PersistentRepositoryDecorator implements CalendarRepository {
         // 로컬에 동기화
         for (final event in events) {
           await _local.createEvent(
-              event.date, event.categoryType, event.subItemKey);
+            event.date,
+            event.categoryType,
+            event.subItemKey,
+            startTime: event.startTime,
+            endTime: event.endTime,
+          );
         }
         return events;
       } else {
@@ -40,15 +46,29 @@ class PersistentRepositoryDecorator implements CalendarRepository {
   Future<CalendarEvent> createEvent(
     DateTime date,
     CategoryType categoryType,
-    String subItemKey,
-  ) async {
+    String subItemKey, {
+    TimeOfDay? startTime,
+    TimeOfDay? endTime,
+  }) async {
     // 먼저 로컬에 저장
-    final localEvent = await _local.createEvent(date, categoryType, subItemKey);
+    final localEvent = await _local.createEvent(
+      date,
+      categoryType,
+      subItemKey,
+      startTime: startTime,
+      endTime: endTime,
+    );
 
     if (_remote is RemoteCalendarRepository) {
       try {
         // 원격 저장소에도 저장 시도
-        return await _remote.createEvent(date, categoryType, subItemKey);
+        return await _remote.createEvent(
+          date,
+          categoryType,
+          subItemKey,
+          startTime: startTime,
+          endTime: endTime,
+        );
       } catch (e) {
         // 원격 저장 실패 시 로컬 이벤트 반환
         return localEvent;

@@ -140,4 +140,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dayLabel => '';
+
+  @override
+  String get am => 'AM';
+
+  @override
+  String get pm => 'PM';
+
+  @override
+  String get startTime => 'Start Time';
+
+  @override
+  String get endTime => 'End Time';
+
+  @override
+  String get select => 'Select';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get selectStartTimeFirst => 'Please select start time first';
+
+  @override
+  String get endTimeMustBeAfterStart => 'End time must be after start time';
+
+  @override
+  String get selectEndTimeFirst => 'Please select end time';
+
+  @override
+  String get allDay => 'All day';
 }
