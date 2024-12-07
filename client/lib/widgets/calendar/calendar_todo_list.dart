@@ -7,10 +7,12 @@ import '../../l10n/app_localizations.dart';
 
 class CalendarTodoList extends StatefulWidget {
   final DateTime currentMonth;
+  final DateTime? selectedDate;
 
   const CalendarTodoList({
     super.key,
     required this.currentMonth,
+    this.selectedDate,
   });
 
   @override
@@ -43,7 +45,10 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
     final theme = Theme.of(context);
     final provider = context.watch<CalendarProvider>();
     final l10n = AppLocalizations.of(context)!;
-    final events = provider.getAllEventsForMonth(widget.currentMonth);
+
+    final events = widget.selectedDate != null
+        ? provider.getEventsForDay(widget.selectedDate!)
+        : provider.getAllEventsForMonth(widget.currentMonth);
 
     // 로딩 상태 처리
     if (provider.isLoading) {

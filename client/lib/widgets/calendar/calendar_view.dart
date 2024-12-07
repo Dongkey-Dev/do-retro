@@ -28,12 +28,14 @@ class CalendarView extends StatefulWidget {
 class _CalendarViewState extends State<CalendarView> {
   late PageController _pageController;
   late DateTime _currentMonth;
+  DateTime? _selectedDate;
   final Map<int, DateTime> _monthCache = {}; // 페이지 인덱스별 월 데이터 캐시
 
   @override
   void initState() {
     super.initState();
     _currentMonth = DateTime(widget.todayDate.year, widget.todayDate.month);
+    _selectedDate = null;
     _pageController = PageController(initialPage: 1000);
 
     // 초기 3개월 캐시 설정
@@ -100,6 +102,20 @@ class _CalendarViewState extends State<CalendarView> {
     ]);
   }
 
+  void _handleDaySelected(DateTime date) {
+    setState(() {
+      // 이미 선택된 날짜를 다시 선택하면 선택 해제
+      if (_selectedDate != null &&
+          date.year == _selectedDate!.year &&
+          date.month == _selectedDate!.month &&
+          date.day == _selectedDate!.day) {
+        _selectedDate = null;
+      } else {
+        _selectedDate = date;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return PieCanvas(
@@ -143,6 +159,8 @@ class _CalendarViewState extends State<CalendarView> {
                             );
                         return MonthView(
                           monthDate: itemMonth,
+                          onDaySelected: _handleDaySelected,
+                          selectedDate: _selectedDate,
                         );
                       },
                     ),
@@ -151,6 +169,7 @@ class _CalendarViewState extends State<CalendarView> {
                   Expanded(
                     child: CalendarTodoList(
                       currentMonth: _currentMonth,
+                      selectedDate: _selectedDate,
                     ),
                   ),
                 ],

@@ -10,7 +10,7 @@ import '../../l10n/app_localizations.dart';
 class CalendarDayCell extends StatelessWidget {
   final DateTime date;
   final Function(DateTime) onDaySelected;
-  final DateTime selectedDate;
+  final DateTime? selectedDate;
   static const int maxVisibleIcons = 5;
 
   const CalendarDayCell({
@@ -168,9 +168,10 @@ class CalendarDayCell extends StatelessWidget {
     final isToday =
         date.year == now.year && date.month == now.month && date.day == now.day;
 
-    final isSelected = date.year == selectedDate.year &&
-        date.month == selectedDate.month &&
-        date.day == selectedDate.day;
+    final isSelected = selectedDate != null &&
+        date.year == selectedDate!.year &&
+        date.month == selectedDate!.month &&
+        date.day == selectedDate!.day;
 
     final calendarProvider = context.watch<CalendarProvider>();
     final events = calendarProvider.getEventsForDay(date);
