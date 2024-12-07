@@ -185,4 +185,13 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get save => '저장';
+
+  @override
+  String get calendarStartDay => '달력 시작 요일';
+
+  @override
+  String get sunday => '일요일';
+
+  @override
+  String get monday => '월요일';
 }

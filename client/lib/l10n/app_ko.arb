@@ -74,5 +74,17 @@
   "eventDetails": "일정 상세",
   "todoDescription": "일정 설명",
   "enterDescription": "설명을 입력하세요",
-  "save": "저장"
+  "save": "저장",
+  "calendarStartDay": "달력 시작 요일",
+  "@calendarStartDay": {
+    "description": "Setting for calendar start day of week"
+  },
+  "sunday": "일요일",
+  "@sunday": {
+    "description": "Sunday"
+  },
+  "monday": "월요일",
+  "@monday": {
+    "description": "Monday"
+  }
 } 

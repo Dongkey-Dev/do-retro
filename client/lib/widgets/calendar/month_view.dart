@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:simple_todo/providers/settings_provider.dart';
 import 'package:simple_todo/theme/app_theme.dart';
+import 'package:simple_todo/widgets/calendar/calendar_view.dart';
 import 'calendar_day_cell.dart';
 import 'calendar_utils.dart';
 import 'package:simple_todo/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class MonthView extends StatelessWidget {
   final DateTime monthDate;
@@ -18,6 +21,7 @@ class MonthView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     final size = MediaQuery.of(context).size;
     final padding = MediaQuery.of(context).padding;
 
@@ -34,7 +38,7 @@ class MonthView extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           height: 30,
-          child: _buildWeekdayNames(context),
+          child: _buildWeekdayNames(context, settingsProvider.startDay.index),
         ),
         const SizedBox(height: 8),
         Flexible(
@@ -48,20 +52,25 @@ class MonthView extends StatelessWidget {
               crossAxisSpacing: 8,
               mainAxisSpacing: 8,
             ),
-            itemCount: _calculateItemCount(),
-            itemBuilder: (context, index) => _buildMonthViewCell(index),
+            itemCount: _calculateItemCount(context),
+            itemBuilder: (context, index) =>
+                _buildMonthViewCell(context, index),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildMonthViewCell(int index) {
-    if (index < CalendarUtils.getFirstWeekday(monthDate)) {
+  Widget _buildMonthViewCell(BuildContext context, int index) {
+    final settingsProvider = Provider.of<SettingsProvider>(context);
+    if (index <
+        CalendarUtils.getFirstWeekday(monthDate, settingsProvider.startDay)) {
       return const SizedBox();
     }
 
-    final day = index - CalendarUtils.getFirstWeekday(monthDate) + 1;
+    final day = index -
+        CalendarUtils.getFirstWeekday(monthDate, settingsProvider.startDay) +
+        1;
     if (day > CalendarUtils.getDaysInMonth(monthDate)) {
       return const SizedBox();
     }
@@ -75,12 +84,13 @@ class MonthView extends StatelessWidget {
     );
   }
 
-  int _calculateItemCount() {
+  int _calculateItemCount(BuildContext context) {
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     return CalendarUtils.getDaysInMonth(monthDate) +
-        CalendarUtils.getFirstWeekday(monthDate);
+        CalendarUtils.getFirstWeekday(monthDate, settingsProvider.startDay);
   }
 
-  Widget _buildWeekdayNames(BuildContext context) {
+  Widget _buildWeekdayNames(BuildContext context, int startDay) {
     final calendarTheme = Theme.of(context).calendarTheme;
     final l10n = AppLocalizations.of(context)!;
 
@@ -94,9 +104,14 @@ class MonthView extends StatelessWidget {
       l10n.weekdaySat,
     ];
 
+    final reorderedWeekdays = [
+      ...weekdays.sublist(startDay),
+      ...weekdays.sublist(0, startDay),
+    ];
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: weekdays.map((day) {
+      children: reorderedWeekdays.map((day) {
         return Expanded(
           child: Center(
             child: Text(

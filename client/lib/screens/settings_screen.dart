@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_todo/l10n/app_localizations.dart';
+import 'package:simple_todo/widgets/settings/calendar_start_day_settings.dart';
 import '../providers/theme_provider.dart';
 import '../widgets/settings/language_settings.dart';
 
@@ -26,6 +27,7 @@ class SettingsScreen extends StatelessWidget {
             onTap: () => _showThemeDialog(context, themeProvider),
           ),
           const LanguageSettings(),
+          const CalendarStartDaySettings(),
         ],
       ),
     );

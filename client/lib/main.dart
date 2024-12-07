@@ -12,9 +12,12 @@ import 'providers/calendar_provider.dart';
 import 'repositories/persistent_repository_decorator.dart';
 import 'providers/theme_provider.dart';
 import 'theme/app_theme.dart';
+import 'providers/settings_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final settingsProvider = SettingsProvider();
+  await settingsProvider.loadSettings();
 
   final prefs = await SharedPreferences.getInstance();
   final localeProvider = LocaleProvider(prefs: prefs);
@@ -39,6 +42,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => settingsProvider),
         ChangeNotifierProvider.value(value: localeProvider),
         ChangeNotifierProvider(
           create: (_) => CalendarProvider(service: service),

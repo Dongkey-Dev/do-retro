@@ -454,6 +454,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
+
+  /// Setting for calendar start day of week
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar Start Day'**
+  String get calendarStartDay;
+
+  /// Sunday
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get sunday;
+
+  /// Monday
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get monday;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
