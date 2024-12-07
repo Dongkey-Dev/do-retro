@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'calendar_day_cell.dart';
-import 'calendar_utils.dart';
 
 class WeekView extends StatelessWidget {
-  final DateTime selectedDate;
+  final DateTime todayDate;
   final Function(DateTime) onDaySelected;
   final Animation<double> heightFactor;
 
   const WeekView({
     super.key,
-    required this.selectedDate,
+    required this.todayDate,
     required this.onDaySelected,
     required this.heightFactor,
   });
@@ -26,8 +25,7 @@ class WeekView extends StatelessWidget {
     final cellHeight = availableHeight / 6;
     final childAspectRatio = cellWidth / cellHeight;
 
-    final weekStart =
-        selectedDate.subtract(Duration(days: selectedDate.weekday - 1));
+    final weekStart = todayDate.subtract(Duration(days: todayDate.weekday - 1));
 
     return AnimatedBuilder(
       animation: heightFactor,
@@ -49,7 +47,7 @@ class WeekView extends StatelessWidget {
               final currentDate = weekStart.add(Duration(days: index));
               return CalendarDayCell(
                 date: currentDate,
-                selectedDate: selectedDate,
+                todayDate: todayDate,
                 onDaySelected: onDaySelected,
               );
             },

@@ -4,17 +4,32 @@ import 'calendar_day_cell.dart';
 import 'calendar_utils.dart';
 import 'package:simple_todo/l10n/app_localizations.dart';
 
-class MonthView extends StatelessWidget {
+class MonthView extends StatefulWidget {
   final DateTime monthDate;
-  final DateTime selectedDate;
-  final Function(DateTime) onDaySelected;
 
   const MonthView({
     super.key,
     required this.monthDate,
-    required this.selectedDate,
-    required this.onDaySelected,
   });
+
+  @override
+  State<MonthView> createState() => _MonthViewState();
+}
+
+class _MonthViewState extends State<MonthView> {
+  late DateTime _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = DateTime.now();
+  }
+
+  void _handleDaySelected(DateTime date) {
+    setState(() {
+      _selectedDate = date;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,27 +72,28 @@ class MonthView extends StatelessWidget {
   }
 
   Widget _buildMonthViewCell(int index) {
-    if (index < CalendarUtils.getFirstWeekday(monthDate)) {
+    if (index < CalendarUtils.getFirstWeekday(widget.monthDate)) {
       return const SizedBox();
     }
 
-    final day = index - CalendarUtils.getFirstWeekday(monthDate) + 1;
-    if (day > CalendarUtils.getDaysInMonth(monthDate)) {
+    final day = index - CalendarUtils.getFirstWeekday(widget.monthDate) + 1;
+    if (day > CalendarUtils.getDaysInMonth(widget.monthDate)) {
       return const SizedBox();
     }
 
-    final currentDate = DateTime(monthDate.year, monthDate.month, day);
+    final currentDate =
+        DateTime(widget.monthDate.year, widget.monthDate.month, day);
 
     return CalendarDayCell(
       date: currentDate,
-      selectedDate: selectedDate,
-      onDaySelected: onDaySelected,
+      selectedDate: _selectedDate,
+      onDaySelected: _handleDaySelected,
     );
   }
 
   int _calculateItemCount() {
-    return CalendarUtils.getDaysInMonth(monthDate) +
-        CalendarUtils.getFirstWeekday(monthDate);
+    return CalendarUtils.getDaysInMonth(widget.monthDate) +
+        CalendarUtils.getFirstWeekday(widget.monthDate);
   }
 
   Widget _buildWeekdayNames(BuildContext context) {
@@ -102,7 +118,7 @@ class MonthView extends StatelessWidget {
             child: Text(
               day,
               style: TextStyle(
-                color: day == l10n.weekdaySun // 일요일 체크도 l10n 사용
+                color: day == l10n.weekdaySun
                     ? calendarTheme.sundayTextColor
                     : calendarTheme.weekdayTextColor,
                 fontSize: 12,

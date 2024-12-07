@@ -9,15 +9,15 @@ import '../../l10n/app_localizations.dart';
 
 class CalendarDayCell extends StatelessWidget {
   final DateTime date;
-  final DateTime selectedDate;
   final Function(DateTime) onDaySelected;
+  final DateTime selectedDate;
   static const int maxVisibleIcons = 5;
 
   const CalendarDayCell({
     super.key,
     required this.date,
-    required this.selectedDate,
     required this.onDaySelected,
+    required this.selectedDate,
   });
 
   void _showSubItems(BuildContext context, CategoryData category) {
@@ -164,6 +164,10 @@ class CalendarDayCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final calendarTheme = Theme.of(context).calendarTheme;
+    final now = DateTime.now();
+    final isToday =
+        date.year == now.year && date.month == now.month && date.day == now.day;
+
     final isSelected = date.year == selectedDate.year &&
         date.month == selectedDate.month &&
         date.day == selectedDate.day;
@@ -203,23 +207,46 @@ class CalendarDayCell extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: isSelected
-              ? calendarTheme.selectedDayColor.withOpacity(0.2)
+              ? Theme.of(context).primaryColor.withOpacity(0.08)
+              : Colors.transparent,
+          border: isToday
+              ? Border.all(
+                  color: Theme.of(context).primaryColor,
+                  width: 2.5,
+                )
+              : isSelected
+                  ? Border.all(
+                      color: Theme.of(context).primaryColor.withOpacity(0.3),
+                      width: 1.5,
+                    )
+                  : null,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: isToday
+              ? [
+                  BoxShadow(
+                    color: Theme.of(context).primaryColor.withOpacity(0.2),
+                    blurRadius: 4,
+                    spreadRadius: 1,
+                  )
+                ]
               : null,
-          borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
           children: [
             Align(
               alignment: Alignment.topCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 4),
                 child: Text(
                   '${date.day}',
                   style: TextStyle(
                     color: date.weekday == DateTime.sunday
                         ? calendarTheme.sundayTextColor
-                        : calendarTheme.dayTextColor,
-                    fontWeight: isSelected ? FontWeight.bold : null,
+                        : date.weekday == DateTime.saturday
+                            ? Colors.blue
+                            : calendarTheme.dayTextColor,
+                    fontWeight: isToday || isSelected ? FontWeight.bold : null,
+                    fontSize: isToday || isSelected ? 16 : 14,
                   ),
                 ),
               ),

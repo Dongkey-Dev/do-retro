@@ -22,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     _screens = [
       CalendarView(
-        selectedDate: _selectedDate,
+        todayDate: _selectedDate,
         onDaySelected: (date) {
           setState(() {
             _selectedDate = date;

@@ -19,14 +19,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   void _handleDaySelected(DateTime date) {
     setState(() {
-      selectedDate = date;
+      selectedDate = DateTime(date.year, date.month, date.day);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return CalendarView(
-      selectedDate: selectedDate,
+      todayDate: selectedDate,
       onDaySelected: _handleDaySelected,
     );
   }

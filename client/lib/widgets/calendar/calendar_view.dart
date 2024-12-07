@@ -12,12 +12,12 @@ enum CalendarViewType {
 }
 
 class CalendarView extends StatefulWidget {
-  final DateTime selectedDate;
+  final DateTime todayDate;
   final Function(DateTime) onDaySelected;
 
   const CalendarView({
     super.key,
-    required this.selectedDate,
+    required this.todayDate,
     required this.onDaySelected,
   });
 
@@ -33,8 +33,7 @@ class _CalendarViewState extends State<CalendarView> {
   @override
   void initState() {
     super.initState();
-    _currentMonth =
-        DateTime(widget.selectedDate.year, widget.selectedDate.month);
+    _currentMonth = DateTime(widget.todayDate.year, widget.todayDate.month);
     _pageController = PageController(initialPage: 1000);
 
     // 초기 3개월 캐시 설정
@@ -76,7 +75,8 @@ class _CalendarViewState extends State<CalendarView> {
     // 캐시 업데이트
     _updateMonthCache(page);
 
-    widget.onDaySelected(DateTime(newMonth.year, newMonth.month, 1));
+    // 월이 변경될 때는 날짜 선택을 하지 않도록 수정
+    // widget.onDaySelected(DateTime(newMonth.year, newMonth.month, 1));
   }
 
   void _updateMonthCache(int currentPage) {
@@ -143,8 +143,6 @@ class _CalendarViewState extends State<CalendarView> {
                             );
                         return MonthView(
                           monthDate: itemMonth,
-                          selectedDate: widget.selectedDate,
-                          onDaySelected: widget.onDaySelected,
                         );
                       },
                     ),
