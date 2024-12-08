@@ -121,5 +121,7 @@
     "description": "Monday"
   },
   "todoDetails": "Todo Details",
-  "todoTitle": "Title"
+  "todoTitle": "Title",
+  "markdownSetting": "Use Markdown",
+  "markdownSettingDescription": "Use markdown syntax in schedule descriptions"
 } 

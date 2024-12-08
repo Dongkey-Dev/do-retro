@@ -200,4 +200,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get todoTitle => 'Title';
+
+  @override
+  String get markdownSetting => 'Use Markdown';
+
+  @override
+  String get markdownSettingDescription => 'Use markdown syntax in schedule descriptions';
 }

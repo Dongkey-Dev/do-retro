@@ -4,11 +4,20 @@ import 'package:simple_todo/models/calendar_settings.dart';
 
 class SettingsProvider extends ChangeNotifier {
   CalendarStartDay _startDay = CalendarStartDay.sunday;
+  bool _useMarkdown = false;
 
   CalendarStartDay get startDay => _startDay;
+  bool get useMarkdown => _useMarkdown;
 
   void setStartDay(CalendarStartDay startDay) {
     _startDay = startDay;
+    notifyListeners();
+  }
+
+  Future<void> toggleMarkdown(bool value) async {
+    _useMarkdown = value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('use_markdown', value);
     notifyListeners();
   }
 
@@ -17,6 +26,7 @@ class SettingsProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     final startDayIndex = prefs.getInt('calendar_start_day') ?? 0;
     _startDay = CalendarStartDay.values[startDayIndex];
+    _useMarkdown = prefs.getBool('use_markdown') ?? false;
     notifyListeners();
   }
 

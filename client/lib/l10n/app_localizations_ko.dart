@@ -200,4 +200,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get todoTitle => '제목';
+
+  @override
+  String get markdownSetting => '마크다운 사용';
+
+  @override
+  String get markdownSettingDescription => '일정 설명에 마크다운 문법 사용';
 }

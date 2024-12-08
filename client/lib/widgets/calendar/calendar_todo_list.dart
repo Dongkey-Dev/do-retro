@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_todo/models/calendar_event.dart';
+import 'package:simple_todo/providers/settings_provider.dart';
 import '../../providers/calendar_provider.dart';
 import '../../models/category_data.dart';
 import '../../l10n/app_localizations.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class CalendarTodoList extends StatefulWidget {
   final DateTime currentMonth;
@@ -203,9 +205,22 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
                         const SizedBox(height: 8),
                         Align(
                           alignment: Alignment.topLeft,
-                          child: Text(
-                            event.description!,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                          child: Consumer<SettingsProvider>(
+                            builder: (context, settingsProvider, _) {
+                              return settingsProvider.useMarkdown
+                                  ? MarkdownBody(
+                                      data: event.description!,
+                                      styleSheet: MarkdownStyleSheet.fromTheme(
+                                          Theme.of(context)),
+                                      selectable: true,
+                                    )
+                                  : Text(
+                                      event.description!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    );
+                            },
                           ),
                         ),
                         const SizedBox(height: 16),

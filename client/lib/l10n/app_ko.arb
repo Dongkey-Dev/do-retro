@@ -88,5 +88,7 @@
     "description": "Monday"
   },
   "todoDetails": "할 일 상세",
-  "todoTitle": "제목"
+  "todoTitle": "제목",
+    "markdownSetting": "마크다운 사용",
+  "markdownSettingDescription": "일정 설명에 마크다운 문법 사용"
 } 

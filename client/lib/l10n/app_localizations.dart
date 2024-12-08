@@ -484,6 +484,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Title'**
   String get todoTitle;
+
+  /// No description provided for @markdownSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Markdown'**
+  String get markdownSetting;
+
+  /// No description provided for @markdownSettingDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use markdown syntax in schedule descriptions'**
+  String get markdownSettingDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
