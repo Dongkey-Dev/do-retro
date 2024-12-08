@@ -472,6 +472,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Monday'**
   String get monday;
+
+  /// No description provided for @todoDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Todo Details'**
+  String get todoDetails;
+
+  /// No description provided for @todoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get todoTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

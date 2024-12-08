@@ -194,4 +194,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get monday => '월요일';
+
+  @override
+  String get todoDetails => '할 일 상세';
+
+  @override
+  String get todoTitle => '제목';
 }

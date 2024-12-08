@@ -194,4 +194,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get monday => 'Monday';
+
+  @override
+  String get todoDetails => 'Todo Details';
+
+  @override
+  String get todoTitle => 'Title';
 }

@@ -4,6 +4,7 @@ import 'package:simple_todo/models/category_data.dart';
 
 class CalendarEvent {
   final String id;
+  final String? title;
   final DateTime date;
   final CategoryType categoryType;
   final String subItemKey;
@@ -15,6 +16,7 @@ class CalendarEvent {
 
   CalendarEvent({
     required this.id,
+    this.title,
     required this.date,
     required this.categoryType,
     required this.subItemKey,
@@ -77,6 +79,7 @@ class CalendarEvent {
 
     return CalendarEvent(
       id: json['id'] as String,
+      title: json['title'] as String?,
       date: DateTime.parse(json['date'] as String),
       categoryType: CategoryType.values.firstWhere(
         (e) => e.toString().split('.').last == json['categoryType'],
@@ -100,6 +103,7 @@ class CalendarEvent {
 
     return {
       'id': id,
+      'title': title,
       'date': date.toIso8601String(),
       'categoryType': categoryType.name,
       'subItemKey': subItemKey,
@@ -113,6 +117,8 @@ class CalendarEvent {
 
   CalendarEvent copyWith({
     String? id,
+    String? title,
+    String? description,
     DateTime? date,
     CategoryType? categoryType,
     String? subItemKey,
@@ -120,10 +126,11 @@ class CalendarEvent {
     DateTime? updatedAt,
     TimeOfDay? startTime,
     TimeOfDay? endTime,
-    String? description,
   }) {
     return CalendarEvent(
       id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
       date: date ?? this.date,
       categoryType: categoryType ?? this.categoryType,
       subItemKey: subItemKey ?? this.subItemKey,
@@ -131,7 +138,6 @@ class CalendarEvent {
       updatedAt: updatedAt ?? this.updatedAt,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
-      description: description ?? this.description,
     );
   }
 }

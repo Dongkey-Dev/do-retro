@@ -134,7 +134,7 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
                   '${endPeriod} ${event.endTime!.hourOfPeriod}:${event.endTime!.minute.toString().padLeft(2, '0')}';
             }
 
-            return ListTile(
+            return ExpansionTile(
               leading: CircleAvatar(
                 backgroundColor: category.color.withOpacity(0.2),
                 child: Icon(
@@ -143,32 +143,19 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
                   size: 20,
                 ),
               ),
-              title: Text(event.getLocalizedSubItem(context)),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${event.date.month}${l10n.monthLabel} ${event.date.day}${l10n.dayLabel}$timeInfo',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 12,
-                    ),
-                  ),
-                  if (event.description != null)
-                    Text(
-                      event.description!,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 12,
-                      ),
-                    ),
-                ],
+              title: Text(event.title ?? event.getLocalizedSubItem(context)),
+              subtitle: Text(
+                '${event.date.month}${l10n.monthLabel} ${event.date.day}${l10n.dayLabel}$timeInfo',
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 12,
+                ),
               ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.description_outlined),
+                    icon: const Icon(Icons.edit_outlined),
                     onPressed: () {
                       _showDescriptionDialog(context, event);
                     },
@@ -203,6 +190,30 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
                   ),
                 ],
               ),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (event.description?.isNotEmpty ?? false) ...[
+                        const SizedBox(height: 8),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            event.description!,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
             );
           },
         ),
@@ -212,33 +223,45 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
 
   // description 다이얼로그를 보여주는 메서드 추가
   void _showDescriptionDialog(BuildContext context, CalendarEvent event) {
-    final textController = TextEditingController(text: event.description);
+    final titleController = TextEditingController(text: event.title);
+    final descriptionController =
+        TextEditingController(text: event.description);
     final l10n = AppLocalizations.of(context)!;
 
     showDialog(
       context: context,
-      builder: (context) => Dialog(
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.8, // 화면 너비의 80%
-          height: MediaQuery.of(context).size.height * 0.4, // 화면 높이의 40%
+      builder: (context) => AlertDialog(
+        contentPadding: EdgeInsets.zero,
+        content: Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.height * 0.5,
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                l10n.todoDescription,
+                l10n.todoDetails,
                 style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                  labelText: l10n.todoTitle,
+                  border: const OutlineInputBorder(),
+                  contentPadding: const EdgeInsets.all(12),
+                ),
               ),
               const SizedBox(height: 16),
               Expanded(
                 child: TextField(
-                  controller: textController,
-                  maxLines: null, // 무제한 줄 수
-                  expands: true, // 사용 가능한 공간을 모두 사용
+                  controller: descriptionController,
+                  maxLines: null,
+                  expands: true,
                   textAlignVertical: TextAlignVertical.top,
                   decoration: InputDecoration(
-                    hintText: l10n.enterDescription,
+                    labelText: l10n.todoDescription,
                     border: const OutlineInputBorder(),
                     contentPadding: const EdgeInsets.all(12),
                   ),
@@ -256,7 +279,8 @@ class _CalendarTodoListState extends State<CalendarTodoList> {
                   TextButton(
                     onPressed: () {
                       final updatedEvent = event.copyWith(
-                        description: textController.text,
+                        title: titleController.text,
+                        description: descriptionController.text,
                         updatedAt: DateTime.now(),
                       );
                       context

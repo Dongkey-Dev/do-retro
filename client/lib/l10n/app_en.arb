@@ -119,5 +119,7 @@
   "monday": "Monday",
   "@monday": {
     "description": "Monday"
-  }
+  },
+  "todoDetails": "Todo Details",
+  "todoTitle": "Title"
 } 

@@ -86,5 +86,7 @@
   "monday": "월요일",
   "@monday": {
     "description": "Monday"
-  }
+  },
+  "todoDetails": "할 일 상세",
+  "todoTitle": "제목"
 } 
